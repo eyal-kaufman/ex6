@@ -44,7 +44,7 @@ public class Main {
 //		while (matcher.find()){
 //			System.out.println("a, b = b, int b=0, final int b,c;".substring(matcher.start(),matcher.end()));
 //		}
-		System.out.println(splitDeclaration.length);
+		System.out.println(Types.typeMap.keySet());
 //		for (String st : splitDeclaration) {
 //			System.out.println(st.trim());
 //		}

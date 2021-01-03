@@ -1,5 +1,5 @@
-package functionsignature;
-import functionsignature.functionnameexceptions.SignatureFunctionException;
+package blocks;
+import blocks.functionnameexceptions.SignatureFunctionException;
 //import name.ValidName;
 
 import java.util.regex.Matcher;

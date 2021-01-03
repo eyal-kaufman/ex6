@@ -1,4 +1,4 @@
-package functionsignature.functionnameexceptions;
+package blocks.functionnameexceptions;
 /**
  * this class throws an exception when the function signature is invalid
  */

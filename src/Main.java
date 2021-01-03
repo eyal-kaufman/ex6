@@ -36,7 +36,9 @@ public class Main {
 	}
 
 	public static void main(String[] args) {
-		int a = 0;
+		int a, b;
+		a = 0;
+		a = 1;
 		String[] splitLine= "a = 3;".trim().split(" *\\w+ *[=,;] *.*",2)[0].trim().split(" ",1);
 		String[] splitDeclaration = "b ".split(" *=[^\"]", 2);;
 //		Pattern pattern = Pattern.compile("[,;]");

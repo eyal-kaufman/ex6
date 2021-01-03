@@ -40,13 +40,12 @@ enum Types {
 	private final Pattern pattern;
 	private final String typeName;
 	public static Map<String, Types> typeMap = Types.loadTypes();
+
 	Types(String name, Pattern pattern) {
 		this.pattern = pattern;
 		this.typeName = name;
 	}
-//	public boolean foo (Types type) {
-//		return type.equals(BOOLEAN);
-//	}
+
 	abstract boolean checkValueType(String value);
 
 	protected boolean validateValue(String value) {

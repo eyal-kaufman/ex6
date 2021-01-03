@@ -7,7 +7,7 @@ public class VariableFactory {
 	private String type;
 
 	public boolean checkName(String name) {
-		return this.validNamePattern.matcher(name).matches();
+		return this.validNamePattern.matcher(name).matches() && !Variable.isReserved(name);
 	}
 
 	/**
@@ -26,6 +26,10 @@ public class VariableFactory {
 //				while (matcher.find()) {
 //					splitLine[1].substring(matcher.start(), matcher.end());
 //				}
+			String[] variables = splitLine[numberOfPrefix].split("[,;]");
+			if (variables.length != 1 && this.type == null) {
+				throw new Exception("it's not allowed to cast multi variables in single line");
+			}
 			for (String var: splitLine[numberOfPrefix].split("[,;]")) {
 				this.checkVariable(var);
 			}
@@ -34,11 +38,20 @@ public class VariableFactory {
 //			Todo
 		}
 	}
+
+	/**
+	 * checks if a variable already exists in this block
+	 * @param name
+	 * @return 0 exists in this block, 1 exists in outer block,  -1 doesn't exists
+	 */
+	private int isAlreadyExists(String name) {
+		return 0;
+	}
 	private boolean checkValue(String value) {
 		return true;
 	}
 	private void checkVariable(String var) throws Exception{
-		String[] nameAndValue = var.split("[^\"] *= *");
+		String[] nameAndValue = var.split("[^\"'] *= *");
 		String variableName = nameAndValue[0];
 		if (nameAndValue.length > 2 || !this.checkName(variableName)
 			||nameAndValue.length == 2 && !this.checkValue(nameAndValue[1])) {
@@ -63,9 +76,12 @@ public class VariableFactory {
 		if (splitLine.length == 2 && this.validFinal(splitLine[0]) && this.validType(splitLine[1])) {
 			return splitLine.length;
 		} else if (splitLine.length == 1 && this.validType(splitLine[0])) {
+			this.isFinal = false;
 			return splitLine.length;
 		}
 		else if (splitLine.length==0) {
+			this.isFinal = false;
+			this.type = null;
 			return splitLine.length;
 		}
 		else {
@@ -73,8 +89,11 @@ public class VariableFactory {
 		}
 	}
 	private boolean validType(String toCheck) {
-		this.type =toCheck;
-		return true;
+		if (Types.typeMap.containsKey(toCheck)) {
+			this.type = toCheck;
+			return true;
+		}
+		return false;
 	}
 	private boolean validFinal(String modifier) {
 		return this.isFinal = modifier.equals("final");

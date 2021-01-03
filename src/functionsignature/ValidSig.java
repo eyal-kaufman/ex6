@@ -1,6 +1,6 @@
 package functionsignature;
 import functionsignature.functionnameexceptions.SignatureFunctionException;
-import name.ValidName;
+//import name.ValidName;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,9 +22,9 @@ public class ValidSig {
 				throw new SignatureFunctionException();     // checks if the function signature is valid
 			}
 			sigArray = sigLine.split("\\(|\\)" );
-			new ValidName(sigArray[1]);
+//			new ValidName(sigArray[1]);
 			sigArray = sigArray[0].split(" ");
-			new ValidName(sigArray[1]);
+//			new ValidName(sigArray[1]);
 		}
 		catch(SignatureFunctionException e){
 			System.err.println(e.getMessage());

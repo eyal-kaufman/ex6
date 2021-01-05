@@ -1,12 +1,13 @@
+package variables;
+
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-enum Types {
+public enum Types {
 	STRING("String", Pattern.compile("^\".*\"")) {
 		@Override
-		boolean checkValueType(String value) {
+		public boolean checkValueType(String value) {
 			return validateValue(value);
 		}
 		//		final Pattern pattern = Pattern.compile("^\".*[\"]");
@@ -18,26 +19,26 @@ enum Types {
 	},
 	CHAR("char", Pattern.compile("^'.*'")) {
 		@Override
-		boolean checkValueType(String value) {
+		public boolean checkValueType(String value) {
 			return validateValue(value);
 		}
 	},
 
 	INT("int", Pattern.compile("\\d+")) {
 		@Override
-		boolean checkValueType(String value) {
+		public boolean checkValueType(String value) {
 			return validateValue(value);
 		}
 	},
 	DOUBLE("double", Pattern.compile("\\d+\\.\\d+")) {
 		@Override
-		boolean checkValueType(String value) {
+		public boolean checkValueType(String value) {
 			return validateValue(value) || INT.validateValue(value);
 		}
 	},
 	BOOLEAN("boolean", Pattern.compile("true|false")) {
 		@Override
-		boolean checkValueType(String value) {
+		public boolean checkValueType(String value) {
 			return validateValue(value) || DOUBLE.validateValue(value);
 		}
 	};
@@ -52,7 +53,7 @@ enum Types {
 		this.typeName = name;
 	}
 
-	abstract boolean checkValueType(String value);
+	public abstract boolean checkValueType(String value);
 
 	protected boolean validateValue(String value) {
 		return this.pattern.matcher(value.trim()).matches();

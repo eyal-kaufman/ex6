@@ -1,3 +1,5 @@
+package variables;
+
 import java.util.HashSet;
 import java.util.regex.Pattern;
 
@@ -19,7 +21,7 @@ public class Variable {
 		HashSet<String> reservedWords = new HashSet<>(Types.typeMap.keySet());
 		reservedWords.add("final");
 		return reservedWords;
-//		for (Types type: Types.values()) {
+//		for (variables.Types type: variables.Types.values()) {
 //			reservedWords.add()
 //		}
 	}

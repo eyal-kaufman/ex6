@@ -1,6 +1,9 @@
+package variables;
+
+import variables.Variable;
+
 import java.util.Map;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class VariableFactory {
 //	private final Pattern validNamePattern = Pattern.compile("_+[a-zA-Z0-9]+|_*[a-zA-Z]\\w*");

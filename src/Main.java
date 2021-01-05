@@ -18,11 +18,14 @@ public class Main {
 		return pattern.matcher(var).matches();
 	}
 	public boolean variableCheck(String line) {
+
 		String[] splitLine= line.trim().split(" ", 3);
 		//			if the length is smaller than 2, then the variables have been declared without a type.
 		//			or the type is not valid, or the line doesn't end with ; sign.
+		int a;
 		if (splitLine.length <2 || !this.validType(splitLine[0])
 			|| !this.validSemicolonSuffix(splitLine[splitLine.length-1])) {
+			a=0;
 			return false;
 		}
 		Pattern pattern = Pattern.compile("[^,;]+? *=* *[^,;]+ *[,;]");
@@ -34,23 +37,24 @@ public class Main {
 		}
 		return true;
 	}
-
+	private String b;
 	public static void main(String[] args) {
-		int a, b;
-		a = 0;
-		a = 1;
+//		int b, c=0;
+//		int a = 1;
+//		b= "a";
+
 		String[] splitLine= "a = 3;".trim().split(" *\\w+ *[=,;] *.*",2)[0].trim().split(" ",1);
-		String[] splitDeclaration = "b ".split(" *=[^\"]", 2);;
+		String[] splitDeclaration = "b=".split("=",2);
 //		Pattern pattern = Pattern.compile("[,;]");
 //		Matcher matcher = pattern.matcher("a, b = b, int b=0, final int b,c;");
 //		while (matcher.find()){
 //			System.out.println("a, b = b, int b=0, final int b,c;".substring(matcher.start(),matcher.end()));
 //		}
-		System.out.println(Types.typeMap.keySet());
-//		for (String st : splitDeclaration) {
-//			System.out.println(st.trim());
-//		}
+//		System.out.println(splitDeclaration[1]);
+		for (String st : splitDeclaration) {
+			System.out.println(st.equals("") + st);
+
+		}
 		Main m = new Main();
-		System.out.println(m.checkName("0"));
 	}
 }

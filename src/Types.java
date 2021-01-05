@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 enum Types {
-	STRING("String", Pattern.compile("^\".*[\"]")) {
+	STRING("String", Pattern.compile("^\".*\"")) {
 		@Override
 		boolean checkValueType(String value) {
 			return validateValue(value);
@@ -15,6 +15,12 @@ enum Types {
 //		public boolean validateValue(String value) {
 //			return this.pattern.matcher(value.trim()).matches();
 //		}
+	},
+	CHAR("char", Pattern.compile("^'.*'")) {
+		@Override
+		boolean checkValueType(String value) {
+			return validateValue(value);
+		}
 	},
 
 	INT("int", Pattern.compile("\\d+")) {
@@ -54,6 +60,11 @@ enum Types {
 
 	public String getTypeName() {
 		return typeName;
+	}
+
+	public static boolean isVariableCasting(String value) {
+		return !BOOLEAN.checkValueType(value) && !STRING.checkValueType(value)
+			   && !CHAR.checkValueType(value);
 	}
 
 	private static Map<String, Types>  loadTypes() {

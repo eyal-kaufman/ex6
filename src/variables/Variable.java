@@ -8,14 +8,17 @@ public class Variable {
 	private final Types type;
 	private final Boolean isFinal;
 	private boolean isInitialized;
+	private final boolean isGlobal;
 	private static final HashSet<String> reservedWords = Variable.loadReservedWords();
 	private static final Pattern validNamePattern = Pattern.compile("_+[a-zA-Z0-9]+|_*[a-zA-Z]\\w*");
 
-	public Variable(String name, Types type, Boolean isFinal, boolean isInitialized) {
+	public Variable(String name, Types type, Boolean isFinal, boolean isInitialized, boolean isGlobal) {
 		this.name = name;
 		this.type = type;
 		this.isFinal = isFinal;
-		this.isInitialized = isInitialized;}
+		this.isInitialized = isInitialized;
+		this.isGlobal = isGlobal;
+	}
 
 	private static HashSet<String> loadReservedWords(){
 		HashSet<String> reservedWords = new HashSet<>(Types.typeMap.keySet());
@@ -35,5 +38,19 @@ public class Variable {
 
 	public static boolean isValidName(String name) {
 		return Variable.validNamePattern.matcher(name).matches();
+	}
+
+	public Boolean isFinal() {
+		return isFinal;
+	}
+
+	public boolean isInitialized() {
+		return isInitialized;
+	}
+	public void setInitialized() {
+		this.isInitialized = true;
+	}
+	public boolean isGlobal() {
+		return isGlobal;
 	}
 }

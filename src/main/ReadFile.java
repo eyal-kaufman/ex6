@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class ReadFile {
 
@@ -27,7 +28,6 @@ public class ReadFile {
 	}
 
 	public void reader() throws IOException, ActionSyntaxInvalidException {
-		Parsers parser = new Parsers();
 		Block mainBlock = new Block();
 		mainBlock.setIsGlobal();
 		blockArray.add(mainBlock);
@@ -35,7 +35,7 @@ public class ReadFile {
 			BasicChecks bc = new BasicChecks();
 			while(line != null) {
 				LineType actionLine = Parsers.lineParser(line);
-				switch (actionLine.getLineType()){
+				switch (Objects.requireNonNull(actionLine).getLineType()){
 					case CLOSER:
 
 					case IF_LINE:

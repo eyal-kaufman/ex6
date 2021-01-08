@@ -27,6 +27,7 @@ public enum Types {
 	INT("int", Pattern.compile("\\d+")) {
 		@Override
 		public boolean checkValueType(String value) {
+
 			return validateValue(value);
 		}
 	},
@@ -56,6 +57,7 @@ public enum Types {
 	public abstract boolean checkValueType(String value);
 
 	protected boolean validateValue(String value) {
+
 		return this.pattern.matcher(value.trim()).matches();
 	}
 

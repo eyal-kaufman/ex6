@@ -36,6 +36,10 @@ public class Variable {
 		return type;
 	}
 
+	public String getName(){
+		return this.name;
+	}
+
 	public static boolean isValidName(String name) {
 		return Variable.validNamePattern.matcher(name).matches();
 	}

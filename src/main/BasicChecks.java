@@ -1,5 +1,6 @@
-import exceptions.EndingLineException;
-import exceptions.NoteException;
+package main;
+
+import main.exceptions.*;
 
 public class BasicChecks {
 

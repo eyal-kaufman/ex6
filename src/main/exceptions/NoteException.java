@@ -1,4 +1,4 @@
-package exceptions;
+package main.exceptions;
 
 /**
  * this class throws an exception when there is a note in the wrong place in the program

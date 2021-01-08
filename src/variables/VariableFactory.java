@@ -204,6 +204,9 @@ public class VariableFactory {
 		}
 		return true;
 	}
+
+	public void parseDeclaration(String replace) {
+	}
 //	public boolean checkVariables(String declaration, String type) {
 //		String[] splitDeclaration = declaration.split("=[^\"]",2);
 //		if (this.checkName(splitDeclaration[0]) && splitDeclaration.length>1) {

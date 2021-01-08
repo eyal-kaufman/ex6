@@ -1,5 +1,6 @@
 package main;
 
+import parser.LineType;
 import parser.Parsers;
 import parser.exception.ActionSyntaxInvalidException;
 
@@ -33,23 +34,28 @@ public class ReadFile {
 			String line = reader.readLine();
 			BasicChecks bc = new BasicChecks();
 			while(line != null) {
-//				int actionLine = parser.lineParser(line);
-//				switch (actionLine){
-//			            case VARIABLE:
-//							VariableFactory vf = new VariableFactory();
-//							vf.parseDeclaration(line);
-//						case IF:case WHILE:
-//
-//						case RETURN:
-//
-//						case CLOSE_BLOCK:
-//
-//						case EMPTY_LINE:
-//						case COMMENT:
-//						case FUNC_SIG:
-//
-//						case CALL_FUNC:
-//				}
+				LineType actionLine = Parsers.lineParser(line);
+				switch (actionLine.getLineType()){
+					case CLOSER:
+
+					case IF_LINE:
+
+						blockArray.add(new Block());
+
+					case WHILE_LINE:
+
+					case RETURN_LINE:
+
+					case EMPTY_LINE:
+
+					case COMMENT:
+
+					case METHOD_INVOKE:
+
+					case METHOD_SIGNATURE:
+
+					case VARIABLE:
+				}
 				line = reader.readLine();
 			}
 	}

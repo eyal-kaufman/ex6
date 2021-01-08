@@ -1,8 +1,10 @@
 package main;
 
+import parser.exception.ActionSyntaxInvalidException;
+
 import java.util.regex.Pattern;
 
-public enum LineOptions {
+public enum FindLineType {
 
 	METHOD_SIGNATURE(Pattern.compile("true|false")),
 	IF_LINE(Pattern.compile("true|false")),
@@ -16,13 +18,21 @@ public enum LineOptions {
 
 	private final Pattern pattern;
 	//TODO
-	LineOptions(Pattern pattern) {
+	FindLineType(Pattern pattern) {
 		this.pattern = pattern;
-
 	}
 
 	public boolean validTemplate(String line) {
 		return this.pattern.matcher(line).matches();
+	}
+
+	public static FindLineType lineAction(String line) throws ActionSyntaxInvalidException {
+		for (FindLineType options : FindLineType.values()) {
+			if (options.validTemplate(line)) {
+				return options;
+			}
+		}
+		throw new ActionSyntaxInvalidException();
 	}
 
 

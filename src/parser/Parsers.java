@@ -1,9 +1,7 @@
 package parser;
 
+import main.FindLineType;
 import parser.exception.ActionSyntaxInvalidException;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Parsers {
 
@@ -20,38 +18,29 @@ public class Parsers {
 	private final static String[] ACTION_VALIDITY = new String[]{"a", "b", "c"};
 
 
-	public int lineParser(String line) throws ActionSyntaxInvalidException {
-		Pattern pattern;
-		Matcher match;
-		int sign = 0;
-		for (int i = 0; i < ACTION_VALIDITY.length; i++) {
-			pattern = Pattern.compile(ACTION_VALIDITY[i]);
-			match = pattern.matcher(line);
-			if (match.matches()) {
-				sign = i + 1;
-				break;
-			}
+	public static LineType lineParser(String line) throws ActionSyntaxInvalidException {
+		FindLineType findLineType = FindLineType.lineAction(line);
+		IfParser lineInfo = new IfParser(line);
+		switch (findLineType){
+			case CLOSER:
+
+			case IF_LINE:
+				return lineInfo.createLineObject();
+			case WHILE_LINE:
+
+			case RETURN_LINE:
+
+			case EMPTY_LINE:
+
+			case COMMENT:
+
+			case METHOD_INVOKE:
+
+			case METHOD_SIGNATURE:
+
+			case VARIABLE:
 		}
-		if (sign == 0) {
-			throw new ActionSyntaxInvalidException();
-		}
-		return sign;
-//		switch (sign) {
-//			case VARIABLE:
-//				VariableFactory vf = new VariableFactory();
-//				vf.parseDeclaration(line);
-//
-//			case IF:case WHILE:
-//
-//			case RETURN:
-//
-//			case CLOSE_BLOCK:
-//
-//			case EMPTY_LINE:
-//			case COMMENT:
-//			case FUNC_SIG:
-//			case CALL_FUNC:
-//		}
+		return lineInfo.createLineObject();
 	}
 
 }

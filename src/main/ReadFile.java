@@ -34,10 +34,13 @@ public class ReadFile {
 			String line = reader.readLine();
 			BasicChecks bc = new BasicChecks();
 			while(line != null) {
+				boolean wasReturn = false;
 				LineType actionLine = Parsers.lineParser(line);
 				switch (Objects.requireNonNull(actionLine).getLineType()){
 					case CLOSER:
-
+						if(wasReturn){
+							
+						}
 					case IF_LINE:
 
 						blockArray.add(new Block());
@@ -45,7 +48,7 @@ public class ReadFile {
 					case WHILE_LINE:
 
 					case RETURN_LINE:
-
+						wasReturn = true;
 					case EMPTY_LINE:
 
 					case COMMENT:

@@ -1,0 +1,17 @@
+Handler:
+
+when opening a new block what do we need to check?
+
+if/while, method:
+	will check if we are in a global block
+	will get a map with all the veriables that were
+	in outer scope.
+
+readFile calls handler - 
+
+Block - map of veriables, isGlobal 
+type action 
+handler abstract:
+	if_While - if the perameters in the paretheses were initialized 
+		   or the parameters are bool.
+		   if we are in a global scope or not

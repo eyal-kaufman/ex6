@@ -26,7 +26,7 @@ public class LineType {
 	 * constructor
 	 * @param lineType - the type of action
 	 */
-	LineType(FindLineType lineType){
+	LineType(FindLineType lineType){ /// for COMMENT, RETURN, EMPTY_LINE
 		this.lineType = lineType;
 		this.variableList = null;
 		this.name = null;
@@ -37,7 +37,7 @@ public class LineType {
 	 *  @param lineType - the type of action
 	  * @param variableList - the list of variables
 	 */
-	LineType(FindLineType lineType, String[] variableList){
+	LineType(FindLineType lineType, String[] variableList){ // IF, WHILE
 		this.lineType = lineType;
 		this.variableList = variableList;
 		this.name = null;
@@ -49,7 +49,7 @@ public class LineType {
 	 * @param variableList - the list of variables
 	 * @param name - name of the function
 	 */
-	LineType(FindLineType lineType, String[] variableList,String name){
+	LineType(FindLineType lineType, String[] variableList,String name){ // INVOKE_METHOD, SIGNATURE_METHOD
 		this.lineType = lineType;
 		this.variableList = variableList;
 		this.name = name;

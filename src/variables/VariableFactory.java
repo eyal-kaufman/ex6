@@ -2,11 +2,13 @@ package variables;
 
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.regex.Matcher;
 
 public class VariableFactory {
 //	private final Pattern validNamePattern = Pattern.compile("_+[a-zA-Z0-9]+|_*[a-zA-Z]\\w*");
+	public static LinkedList<AmbiguityVariable> ambiguityVariables= new LinkedList<>();
 	private Boolean isFinal;
 	private Types type;
 	private Map<String, Variable> blockVariables;
@@ -47,10 +49,9 @@ public class VariableFactory {
 	/**
 	 * checks the following:
 	 * 1. if the variable's name include reserved java words,
-	 * 2. if it's fit to java variables name.
-	 * 3. it verify this variable name wasn't already declraed in this line
-	 * 4. verify it's not initialize more then once in this block.
-	 * 5. if the variable it's not initialized in this line, it verifies the variable was already
+	 * 2. it verify this variable name wasn't already declraed in this line
+	 * 3. verify it's not initialize more then once in this block.
+	 * 4. if the variable it's not initialized in this line, it verifies the variable was already
 	 * initialized in global or outer scope.
 	 * @param name
 	 * @return
@@ -58,12 +59,13 @@ public class VariableFactory {
 	private boolean checkName(String name) {
 //		boolean inLine = this.lineVariables.containsKey(name);
 //		boolean inBlock = this.blockVariables.containsKey(name);
-		return Variable.isValidName(name) && !Variable.isReserved(name)
+		return Variable.isValidName(name)
 			   && !this.variableInLine(name)
-			   && ((!this.variableInBlock(name) && this.type !=null)
-				   ||(this.type == null &&
-					  (this.variableInBlock(name) || this.globalVariables.containsKey(name))));
-//			   && (!this.variableInBlock(name) || this.blockVariables.get(name).getType().equals(this.type));
+			   && (!this.variableInBlock(name) && this.type !=null);
+//			   && ((!this.variableInBlock(name) && this.type !=null)
+//				   ||(this.type == null &&
+//					  (this.variableInBlock(name) || this.globalVariables.containsKey(name))));
+
 	}
 //	public boolean isValidName(String name) {
 //		return this.validNamePattern.matcher(name).matches();
@@ -73,11 +75,12 @@ public class VariableFactory {
 	 * and create from the given line the appropriate variables
 	 * @param line
 	 */
-	public void parseDeclaration(String line, Map<String, Variable> blockVariables, Map<String, Variable> globalVariables){
+	public void parseDeclaration(String line, Map<String, Variable> blockVariables,
+								 Map<String, Variable> globalVariables) throws Exception{
 		this.blockVariables = blockVariables;
 		this.globalVariables = globalVariables;
 		this.lineVariables = new HashMap<>();
-		try {
+
 			int numberOfPrefix = this.getTypeAndModifier(line);
 			String[] splitLine = line.trim().split(" ", numberOfPrefix+1);
 
@@ -95,10 +98,8 @@ public class VariableFactory {
 //			for (String var: variables) {
 //				this.checkVariable(var, var.contains("="));
 //			}
-		}
-		catch (Exception e) {
-//			Todo
-		}
+
+
 	}
 
 	/**
@@ -112,7 +113,6 @@ public class VariableFactory {
 	private boolean checkValue(String[] nameAndValue) {
 		String value = nameAndValue[1];
 		String name = nameAndValue[0];
-//		Types type;
 		if (this.type == null) {
 			Variable outerVariable = this.getVariable(name);
 			if (outerVariable == null || outerVariable.isFinal()) {
@@ -120,7 +120,6 @@ public class VariableFactory {
 			}
 			this.type = outerVariable.getType();
 		}
-
 		return this.type.checkValueType(value) ||
 			   (Types.isVariableCasting(value) &&
 				(this.getVariable(value) != null && this.getVariable(value).isInitialized()));
@@ -129,7 +128,12 @@ public class VariableFactory {
 	private void checkVariable(String var, boolean isCasting) throws Exception{
 		String[] nameAndValue = var.split("=",2);
 		String variableName = nameAndValue[0].trim();
-		if (!this.checkName(variableName)
+		/**
+		 * 1. name is not valid.
+		 * 2. type is null without trying to cast a value to the variable
+		 * 3. the value to cast is not valid
+		 */
+		if (!this.checkName(variableName) && (this.type == null && !isCasting)
 			||isCasting && !this.checkValue(nameAndValue)) {
 			throw new Exception("invalid variable name");
 		}

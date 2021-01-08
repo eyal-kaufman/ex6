@@ -6,13 +6,15 @@ import java.util.regex.Pattern;
 public class Variable {
 	private final String name;
 	private final Types type;
-	private final Boolean isFinal;
+	private final boolean isFinal;
 	private boolean isInitialized;
 	private final boolean isGlobal;
+//	private final boolean isAmbiguity;
 	private static final HashSet<String> reservedWords = Variable.loadReservedWords();
 	private static final Pattern validNamePattern = Pattern.compile("_+[a-zA-Z0-9]+|_*[a-zA-Z]\\w*");
 
-	public Variable(String name, Types type, Boolean isFinal, boolean isInitialized, boolean isGlobal) {
+	public Variable(String name, Types type, boolean isFinal, boolean isInitialized, boolean isGlobal) {
+//		this.isAmbiguity = isAmbiguity;
 		this.name = name;
 		this.type = type;
 		this.isFinal = isFinal;
@@ -28,9 +30,9 @@ public class Variable {
 //			reservedWords.add()
 //		}
 	}
-	public static boolean isReserved(String name){
-		return Variable.reservedWords.contains(name);
-	}
+//	public static boolean isReserved(String name){
+//		return Variable.reservedWords.contains(name);
+//	}
 
 	public Types getType() {
 		return type;
@@ -57,4 +59,8 @@ public class Variable {
 	public boolean isGlobal() {
 		return isGlobal;
 	}
+
+//	public boolean isAmbiguity() {
+//		return isAmbiguity;
+//	}
 }

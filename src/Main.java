@@ -50,15 +50,22 @@ public class Main {
 		Map<String, Variable> block = new HashMap<>();
 
 		VariableFactory fac = new VariableFactory();
-//		int i ;
+		int i, a ;
+//		i = 0, a=1;
 		String[] Lines = {"double a, b;", "int i1, i2 = 6;", "char c='Z', f;", "boolean a, b ,c , d = true," +
 																			   " e, f = 5;",
 				"String a = \"hello\" , b = \"goodbye\";"};
-		for (String line : Lines) {
-			fac.parseDeclaration(line, block, global);
+		try {
+			for (String line : Lines) {
+				fac.parseDeclaration(line, block, global);
+			}
+			fac.parseDeclaration("int i1, i2 = 6;", block, global);
+		} catch (Exception e) {
+			System.out.println();
 		}
 
-		fac.parseDeclaration("int i1, i2 = 6;", block, global);
+
+
 
 		//		String[] splitLine= "a = 3;".trim().split(" *\\w+ *[=,;] *.*",2)[0].trim().split(" ",1);
 //		String[] splitDeclaration = "b=".split("=",2);

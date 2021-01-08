@@ -6,9 +6,10 @@ public class IfAndWhileBlock extends AllBlocks{
 		super(line);
 	}
 
-	@Override
-	public boolean isValid(){
+//
 
-		return true;
+	@Override
+	public boolean advancedValidity(String line) {
+		return false;
 	}
 }

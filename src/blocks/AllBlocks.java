@@ -2,7 +2,7 @@ package blocks;
 
 import blocks.blockexception.BlockTitleException;
 
-public class AllBlocks {
+public abstract class AllBlocks {
 
 	String line;
 
@@ -11,7 +11,7 @@ public class AllBlocks {
 		this.line = line;
 	}
 
-	public boolean isValid() throws BlockTitleException {
-		return true;
-	}
+
+
+	public abstract boolean advancedValidity(String line);
 }

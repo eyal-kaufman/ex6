@@ -72,6 +72,7 @@ public enum Types {
 
 	private static Map<String, Types>  loadTypes() {
 		HashMap<String,Types> typeMap = new HashMap<>();
+		System.out.println("hi");
 		for (Types type : Types.values()) {
 			typeMap.put(type.getTypeName(), type);
 		}

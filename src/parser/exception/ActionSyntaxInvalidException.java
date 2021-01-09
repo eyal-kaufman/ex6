@@ -11,6 +11,9 @@ public class ActionSyntaxInvalidException extends Exception{
 	public ActionSyntaxInvalidException(){
 		super("ERROR: the lines syntax is invalid ");
 	}
+	public ActionSyntaxInvalidException(String message){
+		super(message);
+	}
 
 }
 

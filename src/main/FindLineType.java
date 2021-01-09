@@ -1,20 +1,22 @@
 package main;
 
+import parser.LineType;
 import parser.exception.ActionSyntaxInvalidException;
+import variables.Variable;
 
 import java.util.regex.Pattern;
 
 public enum FindLineType {
 
-	METHOD_SIGNATURE(Pattern.compile("true|false")),
-	IF_LINE(Pattern.compile("true|false")),
-	WHILE_LINE(Pattern.compile("true|false")),
-	RETURN_LINE(Pattern.compile("true|false")),
-	COMMENT(Pattern.compile("true|false")),
-	VARIABLE(Pattern.compile("true|false")),
-	METHOD_INVOKE(Pattern.compile("true|false")),
-	CLOSER(Pattern.compile("true|false")),
-	EMPTY_LINE(Pattern.compile("true|false"));
+	METHOD_SIGNATURE(Pattern.compile("[\t ]*void[\t ]+\\w.*[\t ]*[(][ \t]*\\w.*[ \t]*[)][\t ]*\\{[\t ]*")),
+	IF_LINE(Pattern.compile("[\t ]*if[ \t]*[(][ \t]*\\w.*[ \t]*[)][\t ]*\\{[\t ]*")),
+	WHILE_LINE(Pattern.compile("[\t ]*while[ \t]*[(][ \t]*\\w.*[ \t]*[)] *\\{[\t ]*")),
+	RETURN_LINE(Pattern.compile("[\t ]*return[\t ]*;[\t ]*")),
+	COMMENT(Pattern.compile("^//.*")),
+	VARIABLE(Pattern.compile("[ \t]*\\w.*[\\w'\\\"][ \\t]*;[ \t]*")),
+	METHOD_INVOKE(Pattern.compile("[ \t]*\\w+[ \t]*[(][\t ]*.*[\t ]*[)][\t ]*;[\t ]*")),
+	CLOSER(Pattern.compile("[\t ]*}[\t ]*")),
+	EMPTY_LINE(Pattern.compile("\\s*"));
 
 	private final Pattern pattern;
 	//TODO
@@ -35,5 +37,8 @@ public enum FindLineType {
 		throw new ActionSyntaxInvalidException();
 	}
 
+//	public void handleAction() throws ActionSyntaxInvalidException {
+//		return;
+//	};
 
 }

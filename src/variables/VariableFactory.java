@@ -1,26 +1,42 @@
 package variables;
 
 
+import main.Block;
+
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 public class VariableFactory {
 //	private final Pattern validNamePattern = Pattern.compile("_+[a-zA-Z0-9]+|_*[a-zA-Z]\\w*");
-	public static LinkedList<AmbiguityVariable> ambiguityVariables= new LinkedList<>();
+//	public static LinkedList<AmbiguityVariable> ambiguityVariables= new LinkedList<>();
 	private Boolean isFinal;
 	private Types type;
-	private Map<String, Variable> blockVariables;
-	private Map<String, Variable> lineVariables;
-	private Map<String, Variable> globalVariables;
+	private final Map<String, Variable> blockVariables;
+	private final Map<String, Variable> lineVariables;
+	private final static Pattern typeAndModifierPattern = Pattern.compile("[ \\t]+\\w+$|\\w+[ \\t]*[,;=]");
+	//TODO
+//	private final Map<String, Variable> globalVariables = Block.globalVariables;
+	private final Map<String, Variable> globalVariables;
 
-
-//	VariableFactory(Map<String, Variable> blockVariables, Map<String, Variable> globalVariables) {
-//		this.blockVariables = blockVariables;
+	private VariableFactory(String line, Map<String, Variable> blockVariables) throws VariableException{
+		this.blockVariables = blockVariables;
+		this.globalVariables = this.isGlobalInitializing() ? new HashMap<>():
+							   Block.globalVariables;
+		this.lineVariables = new HashMap<>();
+		this.parseDeclaration(line);
 //		this.globalVariables = globalVariables;
-//	}
+	}
 
+	/**
+	 * checks if the given variable line is from global scope or not.
+	 * @return true if the line is from global scope, false else.
+	 */
+	private boolean isGlobalInitializing() {
+		return this.blockVariables == Block.globalVariables;
+	}
 	/**
 	 * finds the variable in global or in current scope, if exists.
 	 * @param name the name of the variable
@@ -61,32 +77,40 @@ public class VariableFactory {
 //		boolean inBlock = this.blockVariables.containsKey(name);
 		return Variable.isValidName(name)
 			   && !this.variableInLine(name)
-			   && (!this.variableInBlock(name) && this.type !=null);
-//			   && ((!this.variableInBlock(name) && this.type !=null)
-//				   ||(this.type == null &&
+//			   && (!this.variableInBlock(name) && this.type !=null);
+			   && ((!this.variableInBlock(name) && this.type !=null)
+				   ||(this.type == null &&
 //					  (this.variableInBlock(name) || this.globalVariables.containsKey(name))));
+					  (this.blockVariables.containsKey(name) || this.globalVariables.containsKey(name))));
 
 	}
 //	public boolean isValidName(String name) {
 //		return this.validNamePattern.matcher(name).matches();
+//	}
+
+	public static void parseVariableLine(String line, Map<String, Variable> blockVariables) throws VariableException{
+		new VariableFactory(line, blockVariables);
+	}
+
+//	public static Variable parseVariable(String line, Map<String, Variable> blockVariables) throws VariableException{
+//		new VariableFactory(line, blockVariables);
 //	}
 	/**
 	 * this method get line of variable declaration that is finished with , or ;
 	 * and create from the given line the appropriate variables
 	 * @param line
 	 */
-	public void parseDeclaration(String line, Map<String, Variable> blockVariables,
-								 Map<String, Variable> globalVariables) throws Exception{
-		this.blockVariables = blockVariables;
-		this.globalVariables = globalVariables;
-		this.lineVariables = new HashMap<>();
+	private void parseDeclaration(String line) throws VariableException{
+//		this.blockVariables = blockVariables;
+//		this.globalVariables = globalVariables;
+//		this.lineVariables = new HashMap<>();
 
-			int numberOfPrefix = this.getTypeAndModifier(line);
+			int numberOfPrefix = this.getTypeAndModifier(line.trim());
 			String[] splitLine = line.trim().split(" ", numberOfPrefix+1);
 
 			String[] variables = splitLine[numberOfPrefix].split(",");
 			if (variables.length != 1 && this.type == null) {
-				throw new Exception("it's not allowed to cast multi variables in single line");
+				throw new VariableException("it's not allowed to cast multi variables in single line");
 			}
 			for (int i=0 ; i<variables.length; i++) {
 				String variable =variables[i].trim();;
@@ -102,20 +126,20 @@ public class VariableFactory {
 
 	}
 
-	/**
-	 * checks if a variable wasn't initlized exists in this block
-	 * @param name
-	 * @return 0 exists in this block, 1 exists in outer block,  -1 doesn't exists
-	 */
-	private int isAlreadyExists(String name) {
-		return 0;
-	}
+//	/**
+//	 * checks if a variable wasn't initlized exists in this block
+//	 * @param name
+//	 * @return 0 exists in this block, 1 exists in outer block,  -1 doesn't exists
+//	 */
+//	private int isAlreadyExists(String name) {
+//		return 0;
+//	}
 	private boolean checkValue(String[] nameAndValue) {
-		String value = nameAndValue[1];
-		String name = nameAndValue[0];
+		String value = nameAndValue[1].trim();
+		String name = nameAndValue[0].trim();
 		if (this.type == null) {
 			Variable outerVariable = this.getVariable(name);
-			if (outerVariable == null || outerVariable.isFinal()) {
+			if (outerVariable == null || outerVariable.isFinal() && outerVariable.isInitialized()) {
 				return false;
 			}
 			this.type = outerVariable.getType();
@@ -125,7 +149,7 @@ public class VariableFactory {
 				(this.getVariable(value) != null && this.getVariable(value).isInitialized()));
 	}
 
-	private void checkVariable(String var, boolean isCasting) throws Exception{
+	private void checkVariable(String var, boolean isCasting) throws VariableException{
 		String[] nameAndValue = var.split("=",2);
 		String variableName = nameAndValue[0].trim();
 		/**
@@ -133,9 +157,9 @@ public class VariableFactory {
 		 * 2. type is null without trying to cast a value to the variable
 		 * 3. the value to cast is not valid
 		 */
-		if (!this.checkName(variableName) && (this.type == null && !isCasting)
+		if (!this.checkName(variableName) || (this.type == null && !isCasting)
 			||isCasting && !this.checkValue(nameAndValue)) {
-			throw new Exception("invalid variable name");
+			throw new VariableException("variable named " +variableName + " is not valid");
 		}
 		this.updateMap(isCasting, variableName);
 //			createVariable(variableName, VariableValue, this.type, ???);
@@ -148,21 +172,20 @@ public class VariableFactory {
 		Variable oldVariable = this.getVariable(variableName);
 		boolean isGlobal;
 
-		if (this.variableInBlock(variableName) && oldVariable != null) {
+		if ((this.variableInBlock(variableName) || this.isGlobalInitializing())&& oldVariable != null) {
 			oldVariable.setInitialized();
 			return;
 		} else if (this.blockVariables.containsKey(variableName)){
 			isGlobal = true;
 //			newVariable = new Variable(variableName, this.type, this.isFinal, isCasting, isGlobal);
 
-		} else if (oldVariable != null) {
+		} else //			newVariable = new Variable(variableName, this.type, this.isFinal, isCasting,
+			// isGlobal);
+			if (oldVariable != null) {
 			isGlobal = false;
 //			newVariable = new Variable(variableName, this.type, this.isFinal, isCasting, isGlobal);
 		}
-		else{
-			isGlobal = false;
-//			newVariable = new Variable(variableName, this.type, this.isFinal, isCasting, isGlobal);
-		}
+		else isGlobal = this.isGlobalInitializing();
 		Variable newVariable = new Variable(variableName, this.type, this.isFinal, isCasting, isGlobal);
 		this.blockVariables.put(variableName, newVariable);
 		this.lineVariables.put(variableName, newVariable);
@@ -170,26 +193,44 @@ public class VariableFactory {
 	}
 
 	/**
+	 * split given line into type and modifier if exists.
+	 * @param line the line to split
+	 * @return String array of type and modifier
+	 */
+	private String[] splitLineTypeAndModifier(String line) {
+		//		Pattern splitTypeAndModifier = Pattern.compile("[ \\t]+\\w+$|\\w+[ \\t]*[,;=]");
+		Matcher matcher = VariableFactory.typeAndModifierPattern.matcher(line.trim());
+		String[] splitLine;
+		if (matcher.find()) {
+			splitLine = line.substring(0,matcher.start()).trim().split(" ");
+		} else {
+			splitLine = new String[]{""};
+		}
+		return splitLine;
+	}
+//(\w+$)|(\w+[ \t]*[,;=])
+	/**
 	 * checks if there is valid final modifier and/or valid type name.
 	 * @param line line contains variable declaration that ends with ; or ,
 	 * @return 0 if there is no type/ final in the declaration. 1 if there is valid type name, 2 if there are
 	 * both valid final modifier and type name.
 	 */
-	private int getTypeAndModifier(String line) throws Exception{
-		String[] splitLine = line.trim().split(" *\\w+ *[=,;] *.*",2)[0].split(" ");
+	private int getTypeAndModifier(String line) throws VariableException{
+		String [] splitLine = this.splitLineTypeAndModifier(line);
+//		String[] splitLine = line.trim().split(" *\\w+ *[=,;] *.*",2)[0].split(" ");
 		if (splitLine.length == 2 && this.validFinal(splitLine[0]) && this.validType(splitLine[1])) {
 			return splitLine.length;
 		} else if (splitLine.length == 1 && this.validType(splitLine[0])) {
 			this.isFinal = false;
 			return splitLine.length;
 		}
-		else if (splitLine.length==0) {
+		else if (splitLine.length==0 || splitLine.length == 1 && splitLine[0].equals("")) {
 			this.isFinal = false;
 			this.type = null;
-			return splitLine.length;
+			return 0;
 		}
 		else {
-			throw new Exception("invalid variable declaration");
+			throw new VariableException("invalid variable declaration, wrong format of declaration");
 		}
 	}
 	private boolean validType(String toCheck) {
@@ -202,15 +243,15 @@ public class VariableFactory {
 	private boolean validFinal(String modifier) {
 		return this.isFinal = modifier.equals("final");
 	}
-	public boolean findVariables(Matcher matcher, String[] splitLine) {
-		while (matcher.find()) {
-			splitLine[1].substring(matcher.start(), matcher.end());
-		}
-		return true;
-	}
+//	public boolean findVariables(Matcher matcher, String[] splitLine) {
+//		while (matcher.find()) {
+//			splitLine[1].substring(matcher.start(), matcher.end());
+//		}
+//		return true;
+//	}
 
-	public void parseDeclaration(String replace) {
-	}
+//	public void parseDeclaration(String replace) {
+//	}
 //	public boolean checkVariables(String declaration, String type) {
 //		String[] splitDeclaration = declaration.split("=[^\"]",2);
 //		if (this.checkName(splitDeclaration[0]) && splitDeclaration.length>1) {

@@ -27,4 +27,18 @@ public abstract class ExtractArguments {
 	 * @throws ActionSyntaxInvalidException - if the syntax in the line is invalid
 	 */
 	public abstract LineType createLineObject() throws ActionSyntaxInvalidException;
+
+	/**
+	 * extract the arguments from parentheses, if exists.
+	 * @return string exclude the parentheses and containing only the variables
+	 */
+	protected String extractArguments(){
+		int leftParenthesis = this.line.indexOf('(');
+		int rightParenthesis = this.line.indexOf(')');
+
+		if (leftParenthesis +1 == rightParenthesis) {
+			return "";
+		}
+		return this.line.substring(leftParenthesis + 1, rightParenthesis);
+	}
 }

@@ -61,8 +61,8 @@ public class Sjavac {
 //					parenthesesArray.add("{");
 				}
 				else if(line.endsWith(";")){
-					VariableFactory var = new VariableFactory();
-					var.parseDeclaration(line.replace(";",""));
+//					VariableFactory var = new VariableFactory();
+//					var.parseDeclaration(line.replace(";",""));
 				}
 
 				line = br.readLine();

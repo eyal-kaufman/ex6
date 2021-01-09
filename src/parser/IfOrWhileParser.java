@@ -25,9 +25,11 @@ public class IfOrWhileParser extends ExtractArguments {
 	@Override
 	public LineType createLineObject() throws ActionSyntaxInvalidException {
 		String[] splitInformation = line.split("[//(//]");
-		String variablesString = line.substring(line.indexOf("(") + 1,line.indexOf(')'));
+//		String variablesString = line.substring(line.indexOf("(") + 1,line.indexOf(')'));
+		String variablesString = this.extractArguments();
+		if (variablesString.trim().equals(""))
+			throw new ActionSyntaxInvalidException("no arguments in while/if statement");
 		String[] variableList = variablesString.split("|||||&&");
-		LineType lineInfo = new LineType(FindLineType.lineAction(line),variableList);
-		return lineInfo;
+		return new LineType(FindLineType.lineAction(line), variableList);
 	}
 }

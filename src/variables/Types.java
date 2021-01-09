@@ -7,6 +7,11 @@ import java.util.regex.Pattern;
 public enum Types {
 	STRING("String", Pattern.compile("^\".*\"")) {
 		@Override
+		public boolean approvedType(Types type) {
+			return STRING.equals(type);
+		}
+
+		@Override
 		public boolean checkValueType(String value) {
 			return validateValue(value);
 		}
@@ -24,23 +29,31 @@ public enum Types {
 		}
 	},
 
-	INT("int", Pattern.compile("\\d+")) {
+	INT("int", Pattern.compile("0|[1-9]\\d*")) {
 		@Override
 		public boolean checkValueType(String value) {
 
 			return validateValue(value);
 		}
 	},
-	DOUBLE("double", Pattern.compile("\\d+\\.\\d+")) {
+	DOUBLE("double", Pattern.compile("\\d*\\.\\d+|\\d+\\.\\d*")) {
+		@Override
+		public boolean approvedType(Types type) {
+			return this.equals(type) || INT.approvedType(type);
+		}
 		@Override
 		public boolean checkValueType(String value) {
-			return validateValue(value) || INT.validateValue(value);
+			return validateValue(value) || INT.checkValueType(value);
 		}
 	},
 	BOOLEAN("boolean", Pattern.compile("true|false")) {
 		@Override
+		public boolean approvedType(Types type) {
+			return this.equals(type) || DOUBLE.approvedType(type);
+		}
+		@Override
 		public boolean checkValueType(String value) {
-			return validateValue(value) || DOUBLE.validateValue(value);
+			return validateValue(value) || DOUBLE.checkValueType(value);
 		}
 	};
 
@@ -53,7 +66,9 @@ public enum Types {
 		this.pattern = pattern;
 		this.typeName = name;
 	}
-
+	public boolean approvedType(Types type) {
+			return this.equals(type);
+	}
 	public abstract boolean checkValueType(String value);
 
 	protected boolean validateValue(String value) {
@@ -72,7 +87,6 @@ public enum Types {
 
 	private static Map<String, Types>  loadTypes() {
 		HashMap<String,Types> typeMap = new HashMap<>();
-		System.out.println("hi");
 		for (Types type : Types.values()) {
 			typeMap.put(type.getTypeName(), type);
 		}

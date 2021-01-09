@@ -22,10 +22,18 @@ public class MethodInvokeParser extends ExtractArguments{
 	 */
 	@Override
 	public LineType createLineObject() {
-		String name = line.substring(line.indexOf(0) ,line.indexOf("(")).trim();
-		String variablesString = line.substring(line.indexOf("(") + 1,line.indexOf(')'));
-		String[] variableList = variablesString.split(",");
-		LineType lineInfo = new LineType(FindLineType.METHOD_INVOKE,variableList,name);
-		return lineInfo;
+		int leftParenthesis = line.indexOf('(');
+//		int rightParenthesis = line.indexOf(')');
+		String[] variableList = this.extractArguments().split(",");
+		String name = line.substring(0, leftParenthesis).trim();
+//		if (leftParenthesis +1 == rightParenthesis) {
+//			variableList = new String[]{""};
+//		}
+//		else {
+////			String name = line.substring(line.indexOf(0), line.indexOf("(")).trim();
+//			String variablesString = line.substring(leftParenthesis + 1, rightParenthesis);
+//			variableList = variablesString.split(",");
+//		}
+		return new LineType(FindLineType.METHOD_INVOKE, variableList, name);
 	}
 }

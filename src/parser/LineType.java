@@ -53,6 +53,7 @@ public class LineType {
 		this.lineType = lineType;
 		this.variableList = variableList;
 		this.name = name;
+
 	}
 
 	/**

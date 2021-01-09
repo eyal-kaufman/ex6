@@ -1,6 +1,15 @@
+import main.ReadFile;
+import parser.exception.ActionSyntaxInvalidException;
+import variables.Types;
 import variables.Variable;
+import variables.VariableException;
 import variables.VariableFactory;
 
+import javax.imageio.IIOException;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -49,19 +58,25 @@ public class Main {
 		Map<String, Variable> global = new HashMap<>();
 		Map<String, Variable> block = new HashMap<>();
 
-		VariableFactory fac = new VariableFactory();
-		int i, a ;
+//		VariableFactory fac = new VariableFactory();
+//		int a = 09;
+//		System.out.println(a == 9);
 //		i = 0, a=1;
-		String[] Lines = {"double a, b;", "int i1, i2 = 6;", "char c='Z', f;", "boolean a, b ,c , d = true," +
-																			   " e, f = 5;",
-				"String a = \"hello\" , b = \"goodbye\";"};
+		String[] Lines = {"double e, f;", "int i1, i2 = 6;", "char ct='Z', fgg;",
+				"boolean a, b ,c , d = true, gdgg, hfdhdf = 5;",
+				"String hh = \"hello\" , bgg = \"goodbye\";"};
 		try {
-			for (String line : Lines) {
-				fac.parseDeclaration(line, block, global);
-			}
-			fac.parseDeclaration("int i1, i2 = 6;", block, global);
-		} catch (Exception e) {
-			System.out.println();
+			BufferedReader reader = new BufferedReader(new FileReader("\\Users\\Eyal's\\IdeaProjects\\ex6" +
+																	  "\\src" +
+																	  "\\tests\\test009.sjava"));
+			ReadFile.readFirst(reader);
+//			for (String line : Lines) {
+//				VariableFactory.parseVariableLine(line, block);
+//			}
+//			System.out.println(Types.BOOLEAN.checkValueType("0.5"));
+//			fac.parseDeclaration("boolean a, b ,c , d = true, gdgg, hfdhdf = 5;", block, global);
+		} catch (IOException | ActionSyntaxInvalidException | VariableException e ) {
+			System.out.println(e.getMessage());
 		}
 
 

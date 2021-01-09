@@ -27,7 +27,6 @@ public class ExecuteLine {
 			ReadFile.scopeCounter++;
 			return;
 		case VARIABLE:
-			//			ExecuteLine.isInsideLine(scope);
 			VariableHandler.variableDeclare(scope, globalFirst, actionLine);
 			return;
 		case RETURN_LINE:
@@ -52,21 +51,18 @@ public class ExecuteLine {
 
 		switch (actionLine.getLineType()) {
 		case IF_LINE: case WHILE_LINE:
-//			ExecuteLine.isInsideLine(scope);
 			if (!globalFirst){
 				IfAndWhileHandler.ifAndWhile(scope, actionLine,blockStack);
 			}
 			ReadFile.scopeCounter ++;
-//			scope.addLine(actionLine);
 			break;
 
 		case METHOD_INVOKE:
 			if (!globalFirst){
+//				TODO
 				MethodHandler.validMethodCall(actionLine, scope);
 			}
-//			ExecuteLine.isInsideLine(scope);
-//			scope.addLine(actionLine);
-//			break;
+
 
 		}
 	}

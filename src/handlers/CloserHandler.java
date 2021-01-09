@@ -16,6 +16,7 @@ public class CloserHandler {
 		} else if (globalFirst && ExecuteLine.wasReturn && ReadFile.scopeCounter==1) {
 			blocks.peek().addLine(actionLine);
 			blocks.pop();
+//			TODO to check if should add "wasReutrn = false";
 			return;
 		} else if (!globalFirst) {
 			ExecuteLine.wasReturn = false;

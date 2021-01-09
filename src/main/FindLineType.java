@@ -37,8 +37,6 @@ public enum FindLineType {
 		throw new ActionSyntaxInvalidException();
 	}
 
-//	public void handleAction() throws ActionSyntaxInvalidException {
-//		return;
-//	};
+
 
 }

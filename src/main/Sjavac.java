@@ -32,7 +32,7 @@ public class Sjavac {
 			System.err.println(e.getMessage());   // fix this exception
 		}
 		try(BufferedReader br = new BufferedReader(new FileReader(args[0]))){
-			ReadFile reading = new ReadFile(br);
+//			ReadFile reading = new ReadFile(br);
 		} catch (IOException ioException) {
 			ioException.printStackTrace();
 		}
@@ -49,32 +49,32 @@ public class Sjavac {
 //			e.printStackTrace();
 		}
 
-		private static void divideActions(String file) throws FileNotFoundException {
-		try(BufferedReader br = new BufferedReader(new FileReader(file))){
-			String line = br.readLine();
-			BasicChecks bc = new BasicChecks();
-			while(line != null){
-
-				line = bc.checkLineBasics(line);
-				if(line.endsWith("{")){
-//					blockArray.add(new BlockFactory(line.replace("{","")));
-//					parenthesesArray.add("{");
-				}
-				else if(line.endsWith(";")){
-//					VariableFactory var = new VariableFactory();
-//					var.parseDeclaration(line.replace(";",""));
-				}
-
-				line = br.readLine();
-			}
-		} catch (IOException e){
-			e.printStackTrace();
-			System.out.println(2);
-		} catch(EndingLineException|NoteException e){
-			e.printStackTrace();
-			System.out.println(1);
-		}
-	}
+//		private static void divideActions(String file) throws FileNotFoundException {
+//		try(BufferedReader br = new BufferedReader(new FileReader(file))){
+//			String line = br.readLine();
+//			BasicChecks bc = new BasicChecks();
+//			while(line != null){
+//
+//				line = bc.checkLineBasics(line);
+//				if(line.endsWith("{")){
+////					blockArray.add(new BlockFactory(line.replace("{","")));
+////					parenthesesArray.add("{");
+//				}
+//				else if(line.endsWith(";")){
+////					VariableFactory var = new VariableFactory();
+////					var.parseDeclaration(line.replace(";",""));
+//				}
+//
+//				line = br.readLine();
+//			}
+//		} catch (IOException e){
+//			e.printStackTrace();
+//			System.out.println(2);
+//		} catch(EndingLineException|NoteException e){
+//			e.printStackTrace();
+//			System.out.println(1);
+//		}
+//	}
 
 
 }

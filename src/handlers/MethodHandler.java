@@ -16,7 +16,8 @@ public class MethodHandler {
 	public static void methodSignature(Block block, LineType lineType, Stack<Block> blocks) throws ActionSyntaxInvalidException,
 																					 VariableException {
 		String functionName = lineType.getName();
-		if (!block.isGlobal() || !Variable.isValidName(functionName) || ReadFile.functionMap.containsKey(functionName)) {
+		if (!block.isGlobal() || !Variable.isValidName(functionName)
+			|| ReadFile.functionMap.containsKey(functionName)) {
 			throw new ActionSyntaxInvalidException("invalid method signature");
 		}
 		Block functionBlock = new Block(block);
@@ -51,7 +52,7 @@ public class MethodHandler {
 
 			}
 		} else {
-			throw new ActionSyntaxInvalidException("invaid method call");
+			throw new ActionSyntaxInvalidException("invalid method call");
 		}
 	}
 }

@@ -1,17 +1,26 @@
-Handler:
+General:
+-exceptions - make the messages to be "magic numbers", more informative messages -
+    (include the problematic data)
+    types?
+        Variable exception
+        unknown line type /
+        ???
+- docString all the function and classes
+handlers:
+    Closer "TODO note"
+    IfAndWhile : is the deep copy works? throw exceptions in the handler.
+            more tests are needed.
+    methodHandler: "functionBlock.updateVariable(lineType);" need to update the list of
+                function variables, a fix in the variable factory needed.
+    VariableHandler: nothing for now?
 
-when opening a new block what do we need to check?
+main:
+    sjavac - to write and orginize the class, invoke readFile methods and print the
+            excpetions.
+    Block - create child class named Function that implements some of Block methods
 
-if/while, method:
-	will check if we are in a global block
-	will get a map with all the veriables that were
-	in outer scope.
 
-readFile calls handler - 
 
-Block - map of veriables, isGlobal 
-type action 
-handler abstract:
-	if_While - if the perameters in the paretheses were initialized 
-		   or the parameters are bool.
-		   if we are in a global scope or not
+
+
+

@@ -42,8 +42,9 @@ public class Block {
     public void updateVariable(LineType lineType) throws VariableException {
         if (!isGlobal) {
             for (String variable : lineType.getVariableList()) {
-                VariableFactory.parseVariableLine(variable, this.variableMap);
-//               this.addVariable(this.variableMap);
+                Variable argument = VariableFactory.createVariableFromArgument(variable, this.variableMap);
+                this.addParamType(argument);
+
             }
         }
     }
@@ -74,8 +75,8 @@ public class Block {
      * this function adds a new function's argument to the linked list hold all of the arguments.
      * @param variable - the variable added
      */
-    public void addParamType(String variable){
-        this.functionTypeParams.add(this.isVariableInBlock(variable).getType());
+    public void addParamType(Variable variable){
+        this.functionTypeParams.add(variable.getType());
     }
 
     /**

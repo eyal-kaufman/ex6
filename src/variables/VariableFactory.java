@@ -4,7 +4,9 @@ package variables;
 import main.Block;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -43,6 +45,19 @@ public class VariableFactory {
 	}
 
 	/**
+	 * Invokes when trying to parse argument from method signature
+	 * @param line the line to try creating variable from
+	 * @param blockVariables the current variable block
+	 * @param variableToReturn set to load into the single variable declared in this process
+	 * @throws VariableException in case the line it's not valid
+	 */
+	private VariableFactory(String line, Map<String, Variable> blockVariables,
+							Set<Variable> variableToReturn) throws VariableException{
+		this(line, blockVariables);
+		variableToReturn.addAll(this.lineVariables.values());
+	}
+
+	/**
 	 * invoke for creating variables object and add them to the block map.
 	 * this method get line of variable declaration that is finished with , or ;
 	 * and create from the given line the appropriate variables
@@ -54,11 +69,19 @@ public class VariableFactory {
 		new VariableFactory(line, blockVariables);
 	}
 
-
-//	public static Variable createVariableFromArgument(String line, Map<String, Variable> blockVariables)
-//			throws VariableException{
-//
-//	}
+	/**
+	 * invoke when trying to create Variable object from arguments declared in method signature.
+	 * @param line the line to create variables from.
+	 * @param blockVariables the current block map
+	 * @return the single Variable that just created.
+	 * @throws VariableException in case of invalid variables.
+	 */
+	public static Variable createVariableFromArgument(String line, Map<String, Variable> blockVariables)
+			throws VariableException{
+		HashSet<Variable> singleVariableSet = new HashSet<>();
+		new VariableFactory(line, blockVariables, singleVariableSet);
+		return singleVariableSet.iterator().next();
+	}
 	/**
 	 * checks if the given variable line is from global scope or not.
 	 * @return true if the line is from global scope, false else.

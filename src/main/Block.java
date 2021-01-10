@@ -8,14 +8,12 @@ import variables.VariableFactory;
 
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class Block {
 
     public static HashMap<String, Variable> globalVariables = new HashMap<>();
     private final Block previousBlock;
-    private final LinkedList<Types> functionParams = new LinkedList<>();
+    private final LinkedList<Types> functionTypeParams = new LinkedList<>();
     private final LinkedList<LineType> blockLines = new LinkedList<>();
     /**
      * all the variables in the block
@@ -45,7 +43,7 @@ public class Block {
         if (!isGlobal) {
             for (String variable : lineType.getVariableList()) {
                 VariableFactory.parseVariableLine(variable, this.variableMap);
-                this.addVariable(variable);
+//               this.addVariable(this.variableMap);
             }
         }
     }
@@ -76,8 +74,8 @@ public class Block {
      * this function adds a new function's argument to the linked list hold all of the arguments.
      * @param variable - the variable added
      */
-    public void addVariable(String variable){
-        this.functionParams.add(this.isVariableInBlock(variable).getType());
+    public void addParamType(String variable){
+        this.functionTypeParams.add(this.isVariableInBlock(variable).getType());
     }
 
     /**
@@ -164,7 +162,7 @@ public class Block {
         }
         return null;
     }
-    public LinkedList<Types> getFunctionParams(){
-        return this.functionParams;
+    public LinkedList<Types> getFunctionTypeParams(){
+        return this.functionTypeParams;
     }
 }

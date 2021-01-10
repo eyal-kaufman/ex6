@@ -24,20 +24,16 @@ public class CloserHandler {
 	 * @throws ActionSyntaxInvalidException in case of invalid }, if it placed wrong.
 	 */
 	public static void closer(LineType actionLine, Stack<Block> blocks, boolean globalFirst) throws ActionSyntaxInvalidException {
-		if (globalFirst && !ExecuteLine.wasReturn && ReadFile.scopeCounter == 1 || ReadFile.scopeCounter < 1) {
-			throw new ActionSyntaxInvalidException();
+		if (globalFirst && !ExecuteLine.wasReturn && (ReadFile.scopeCounter == 1 || ReadFile.scopeCounter < 1)) {
+				throw new ActionSyntaxInvalidException();
 		} else if (globalFirst && ExecuteLine.wasReturn && ReadFile.scopeCounter==1) {
 			blocks.peek().addLine(actionLine);
 			blocks.pop();
-//			TODO to check if should add "wasReutrn = false";
 			return;
 		} else if (!globalFirst) {
-			ExecuteLine.wasReturn = false;
 			blocks.pop();
 			return;
 		}
 		blocks.peek().addLine(actionLine);
-		ExecuteLine.wasReturn = false;
-
 	}
 }

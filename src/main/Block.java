@@ -38,8 +38,6 @@ public class Block {
         }
     }
 
-
-
     /**
      * ids the global block, default is false
      */
@@ -52,14 +50,16 @@ public class Block {
      * @throws VariableException if one of the variables is not valid.
      */
     public void updateVariable(LineType lineType) throws VariableException {
-        if (!isGlobal) {
+        if (!isGlobal){
             for (String variable : lineType.getVariableList()) {
-                Variable argument = VariableFactory.createVariableFromArgument(variable, this.variableMap);
-                this.addParamType(argument);
-
+                if(!variable.equals("")) {
+                    Variable argument = VariableFactory.createVariableFromArgument(variable, this.variableMap);
+                    this.addParamType(argument);
+                }
             }
         }
     }
+
     /**
      * inform isGlobal status
      * @return isGlobal status
@@ -92,6 +92,8 @@ public class Block {
     public void addParamType(Variable variable){
         this.functionTypeParams.add(variable.getType());
     }
+
+
 
     /**
      * getter fot th variable map

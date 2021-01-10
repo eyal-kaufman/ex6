@@ -36,7 +36,7 @@ public abstract class ExtractArguments {
 		int leftParenthesis = this.line.indexOf('(');
 		int rightParenthesis = this.line.indexOf(')');
 
-		if (leftParenthesis +1 == rightParenthesis) {
+		if (leftParenthesis + 1 == rightParenthesis) {
 			return "";
 		}
 		return this.line.substring(leftParenthesis + 1, rightParenthesis);

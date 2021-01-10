@@ -12,7 +12,7 @@ import java.util.Stack;
  * handle the situation when encounter if or while statements.
  */
 public class IfAndWhileHandler {
-//TODO exception
+//TODO exception, check if  the updateMap in Block works
 
 	/**
 	 * invokes when encounter if or while statements in the advanced reading.
@@ -34,7 +34,7 @@ public class IfAndWhileHandler {
 				Block newBlock = new Block(blocks.peek());
 //				TODO is the deep copy works?
 				newBlock.updateMap();
-				blocks.add(newBlock);
+				blocks.push(newBlock);
 			}
 		}
 

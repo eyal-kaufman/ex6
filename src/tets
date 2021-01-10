@@ -1,0 +1,11 @@
+void foo(int d, int a) {
+char t = 'hhh';
+return;
+}
+
+void hi(int a){
+int f;
+foo(a);
+char b = 'q';
+return;
+}

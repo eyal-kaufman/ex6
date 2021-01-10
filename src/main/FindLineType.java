@@ -1,14 +1,12 @@
 package main;
 
-import parser.LineType;
 import parser.exception.ActionSyntaxInvalidException;
-import variables.Variable;
 
 import java.util.regex.Pattern;
 
 public enum FindLineType {
 
-	METHOD_SIGNATURE(Pattern.compile("[\t ]*void[\t ]+\\w.*[\t ]*[(][ \t]*\\w.*[ \t]*[)][\t ]*\\{[\t ]*")),
+	METHOD_SIGNATURE(Pattern.compile("[\t ]*void[\t ]+\\w.*[\t ]*[(][ \t]*.*[ \t]*[)][\t ]*\\{[\t ]*")),
 	IF_LINE(Pattern.compile("[\t ]*if[ \t]*[(][ \t]*\\w.*[ \t]*[)][\t ]*\\{[\t ]*")),
 	WHILE_LINE(Pattern.compile("[\t ]*while[ \t]*[(][ \t]*\\w.*[ \t]*[)] *\\{[\t ]*")),
 	RETURN_LINE(Pattern.compile("[\t ]*return[\t ]*;[\t ]*")),

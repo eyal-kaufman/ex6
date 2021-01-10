@@ -6,9 +6,7 @@ import handlers.MethodHandler;
 import handlers.VariableHandler;
 import parser.LineType;
 import parser.exception.ActionSyntaxInvalidException;
-import variables.Variable;
 import variables.VariableException;
-import variables.VariableFactory;
 
 import java.util.Stack;
 
@@ -20,6 +18,7 @@ public class ExecuteLine {
 		switch (actionLine.getLineType()) {
 		case CLOSER:
 			CloserHandler.closer(actionLine, blockStack, globalFirst);
+			wasReturn = false;
 			ReadFile.scopeCounter--;
 			return;
 		case METHOD_SIGNATURE:
@@ -38,15 +37,16 @@ public class ExecuteLine {
 			ExecuteLine.wasReturn = true;
 			return;
 		case EMPTY_LINE:
+			return;
 		case COMMENT:
 			if (ExecuteLine.wasReturn) {
 				throw new ActionSyntaxInvalidException("line not supposed to be after return statement");
 			}
 			return;
 		}
-			if(globalFirst) {
-				ExecuteLine.isInsideLine(scope);
-				scope.addLine(actionLine);
+		if(globalFirst) {
+			ExecuteLine.isInsideLine(scope);
+			scope.addLine(actionLine);
 		}
 
 		switch (actionLine.getLineType()) {
@@ -56,14 +56,10 @@ public class ExecuteLine {
 			}
 			ReadFile.scopeCounter ++;
 			break;
-
 		case METHOD_INVOKE:
 			if (!globalFirst){
-//				TODO
 				MethodHandler.validMethodCall(actionLine, scope);
 			}
-
-
 		}
 	}
 

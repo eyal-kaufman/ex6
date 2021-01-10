@@ -7,10 +7,7 @@ import variables.VariableException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.security.PublicKey;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Stack;
 
 /**
@@ -35,7 +32,7 @@ public class ReadFile {
 			throws IOException, ActionSyntaxInvalidException, VariableException {
 		Block globalScope = new Block(null);
 		Stack<Block> blockStack = new Stack<>();
-		blockStack.add(globalScope);
+		blockStack.push(globalScope);
 		String line = reader.readLine();
 		while (line != null) {
 			Block scope = blockStack.peek();
@@ -55,11 +52,10 @@ public class ReadFile {
 	public static void readFunctionsData() throws ActionSyntaxInvalidException,VariableException {
 		for (Block function: ReadFile.functionMap.values()) {
 			Stack<Block> functionStack = new Stack<>();
-			functionStack.add(function);
+			functionStack.push(function);
 			for (LineType actionLine: function.getBlockLines()) {
-				ExecuteLine.executeLine(actionLine, function, false, functionStack);
+				ExecuteLine.executeLine(actionLine, functionStack.peek(), false, functionStack);
 			}
 		}
 	}
-
 }

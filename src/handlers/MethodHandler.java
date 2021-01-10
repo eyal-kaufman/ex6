@@ -34,7 +34,7 @@ public class MethodHandler {
 		Block functionBlock = new Block(block);
 		functionBlock.updateVariable(lineType);
 		ReadFile.functionMap.put(functionName, functionBlock);
-		blocks.add(functionBlock);
+		blocks.push(functionBlock);
 	}
 
 	/**
@@ -55,7 +55,8 @@ public class MethodHandler {
 			Block function = ReadFile.functionMap.get(functionName);
 			LinkedList<Types> params = function.getFunctionTypeParams();
 			// if the number of arguments match the number of arguments in the known function
-			if (params.size() != lineType.getVariableList().length) {
+			if (!(params.size() == 0 && lineType.getVariableList()[0].equals(""))
+					|| params.size()!= 0 && params.size() != lineType.getVariableList().length) {
 				throw new ActionSyntaxInvalidException("invalid number of argument in method call");
 			}
 //			iterate over the the number of arguments in the function

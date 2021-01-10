@@ -28,7 +28,7 @@ public enum Types {
 	/**
 	 * char type member
 	 */
-	CHAR("char", Pattern.compile("^'.*'")) {
+	CHAR("char", Pattern.compile("'.?'")) {
 		@Override
 		public boolean checkValueType(String value) {
 			return validateValue(value);

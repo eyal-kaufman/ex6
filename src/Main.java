@@ -1,15 +1,11 @@
 import main.ReadFile;
 import parser.exception.ActionSyntaxInvalidException;
-import variables.Types;
 import variables.Variable;
 import variables.VariableException;
-import variables.VariableFactory;
 
-import javax.imageio.IIOException;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -18,6 +14,9 @@ import java.util.regex.Pattern;
 public class Main {
 
 
+	public void checkRead2(){
+
+	}
 	public boolean checkName(String name) {
 		Pattern pattern = Pattern.compile("_+[a-zA-Z0-9]+|_*[a-zA-Z]\\w*");
 		return pattern.matcher(name).matches();
@@ -66,10 +65,9 @@ public class Main {
 				"boolean a, b ,c , d = true, gdgg, hfdhdf = 5;",
 				"String hh = \"hello\" , bgg = \"goodbye\";"};
 		try {
-			BufferedReader reader = new BufferedReader(new FileReader("\\Users\\Eyal's\\IdeaProjects\\ex6" +
-																	  "\\src" +
-																	  "\\tests\\test009.sjava"));
+			BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\kaszo\\Documents\\oop\\ex6\\src\\tets"));
 			ReadFile.readFirst(reader);
+			ReadFile.readFunctionsData();
 //			for (String line : Lines) {
 //				VariableFactory.parseVariableLine(line, block);
 //			}

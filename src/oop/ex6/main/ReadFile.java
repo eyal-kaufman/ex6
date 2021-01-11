@@ -55,6 +55,7 @@ public class ReadFile {
 	 * @throws VariableException in case of invalid variable.
 	 */
 	public static void readFunctionsData() throws ActionSyntaxInvalidException, VariableException, InvalidActionTerms {
+
 		wasReturn = false;
 		for (Functions function: ReadFile.functionMap.values()) {
 			Stack<Block> functionStack = new Stack<>();

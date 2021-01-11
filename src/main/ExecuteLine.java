@@ -4,6 +4,7 @@ import handlers.CloserHandler;
 import handlers.IfAndWhileHandler;
 import handlers.MethodHandler;
 import handlers.VariableHandler;
+import handlers.exception.InvalidActionTerms;
 import parser.LineType;
 import parser.exception.ActionSyntaxInvalidException;
 import variables.VariableException;
@@ -29,7 +30,7 @@ public class ExecuteLine {
 	 */
 	public static void executeLine(LineType actionLine, Block scope, boolean globalFirst,
 								   Stack<Block> blockStack)
-			throws VariableException, ActionSyntaxInvalidException{
+			throws VariableException, ActionSyntaxInvalidException, InvalidActionTerms {
 		switch (actionLine.getLineType()) {
 		case CLOSER:
 			CloserHandler.closer(actionLine, blockStack, globalFirst, ExecuteLine.wasReturn);

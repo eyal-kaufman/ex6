@@ -1,10 +1,10 @@
 package handlers;
 
+import handlers.exception.InvalidActionTerms;
 import main.Block;
 import main.Functions;
 import main.ReadFile;
 import parser.LineType;
-import parser.exception.ActionSyntaxInvalidException;
 import variables.Types;
 import variables.Variable;
 import variables.VariableException;
@@ -22,15 +22,15 @@ public class MethodHandler {
 	 * @param block the current scope
 	 * @param lineType object wrap the method signature
 	 * @param blocks stack of blocks
-	 * @throws ActionSyntaxInvalidException in case of invalid name of a method/wrong place/exists name.
+	 * @throws InvalidActionTerms in case of invalid name of a method/wrong place/exists name.
 	 * @throws VariableException in case of invalid variable declaration in the method's signature
 	 */
-	public static void methodSignature(Block block, LineType lineType, Stack<Block> blocks) throws ActionSyntaxInvalidException,
+	public static void methodSignature(Block block, LineType lineType, Stack<Block> blocks) throws InvalidActionTerms,
 																					 VariableException {
 		String functionName = lineType.getName();
 		if (!block.isGlobal() || !Variable.isValidName(functionName)
 			|| ReadFile.functionMap.containsKey(functionName)) {
-			throw new ActionSyntaxInvalidException("invalid method signature");
+			throw new InvalidActionTerms("invalid method signature");
 		}
 //		Block functionBlock = new Block(block);
 		Functions functionBlock = new Functions(block);
@@ -48,9 +48,9 @@ public class MethodHandler {
 	 *  known method
 	 * @param lineType the object wrap the method call
 	 * @param scope the current scope
-	 * @throws ActionSyntaxInvalidException when the method call is invalid
+	 * @throws InvalidActionTerms when the method call is invalid
 	 */
-	public static void validMethodCall(LineType lineType, Block scope) throws ActionSyntaxInvalidException {
+	public static void validMethodCall(LineType lineType, Block scope) throws  InvalidActionTerms {
 		String functionName = lineType.getName();
 		// the name of the function is known:
 		if (ReadFile.functionMap.containsKey(functionName)) {
@@ -59,25 +59,25 @@ public class MethodHandler {
 			// if the number of arguments match the number of arguments in the known function
 			if (params.size() == 0 && !lineType.getVariableList()[0].equals("")
 					|| params.size()!= 0 && params.size() != lineType.getVariableList().length) {
-				throw new ActionSyntaxInvalidException("invalid number of argument in method call");
+				throw new InvalidActionTerms("invalid number of argument in method call");
 			}
 //			iterate over the the number of arguments in the function
 			for (int i = 0; i < params.size(); i++) {
 
 				String variable = lineType.getVariableList()[i];
 				Variable variableObject = scope.isVariableInBlock(variable);
-//				if the the variable doesn't exist in this block or it doesn't initialized
+//				if the the variable doesn't exist in this block or it isint initialized
 //				or the wanted type of the argument doesn't expect the new param,
 //				or if the given variable is a constant and it's not fit the wanted type.
 				if (variableObject != null &&   (!variableObject.isInitialized()
 					|| !params.get(i).approvedType(variableObject.getType()))
 					|| (variableObject == null && !params.get(i).checkValueType(variable))) {
-					throw new ActionSyntaxInvalidException("invalid method call");
+					throw new InvalidActionTerms("invalid method call");
 				}
 
 			}
 		} else {
-			throw new ActionSyntaxInvalidException("invalid method call");
+			throw new InvalidActionTerms("function called unknown");
 		}
 	}
 }

@@ -1,5 +1,6 @@
 package main;
 
+import handlers.exception.InvalidActionTerms;
 import parser.LineType;
 import parser.Parsers;
 import parser.exception.ActionSyntaxInvalidException;
@@ -29,7 +30,7 @@ public class ReadFile {
 	 * @throws VariableException in case of invalid variable.
 	 */
 	public static void readFirst(BufferedReader reader)
-			throws IOException, ActionSyntaxInvalidException, VariableException {
+			throws IOException, ActionSyntaxInvalidException, VariableException, InvalidActionTerms {
 		Block globalScope = new Block(null);
 		Stack<Block> blockStack = new Stack<>();
 		blockStack.push(globalScope);
@@ -49,7 +50,7 @@ public class ReadFile {
 	 * @throws ActionSyntaxInvalidException in case of invalid line.
 	 * @throws VariableException in case of invalid variable.
 	 */
-	public static void readFunctionsData() throws ActionSyntaxInvalidException,VariableException {
+	public static void readFunctionsData() throws ActionSyntaxInvalidException, VariableException, InvalidActionTerms {
 		for (Functions function: ReadFile.functionMap.values()) {
 			Stack<Block> functionStack = new Stack<>();
 			functionStack.push(function);

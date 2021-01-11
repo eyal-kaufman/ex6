@@ -74,7 +74,7 @@ public class Functions extends Block{
 		return true;
 	}
 	/**
-	 * return the types linked list, conatins all the types of method argument by order.
+	 * return the types linked list, contains all the types of method argument by order.
 	 * @return linked list of arguments' types.
 	 */
 	public LinkedList<Types> getFunctionTypeParams(){

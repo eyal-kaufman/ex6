@@ -30,9 +30,7 @@ public class IfAndWhileHandler {
 			Variable variable = scope.isVariableInBlock(expression);
 			if (Types.BOOLEAN.checkValueType(expression)
 				|| variable != null && Types.BOOLEAN.approvedType(variable.getType())) {
-
 				Block newBlock = new Block(blocks.peek());
-//				TODO is the deep copy works?
 				newBlock.updateMap();
 				blocks.push(newBlock);
 			} else {

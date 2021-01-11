@@ -1,11 +1,10 @@
 package handlers;
 
+import handlers.exception.InvalidActionTerms;
 import main.Block;
-import main.ExecuteLine;
 import main.Functions;
 import main.ReadFile;
 import parser.LineType;
-import parser.exception.ActionSyntaxInvalidException;
 
 import java.util.Stack;
 
@@ -23,12 +22,12 @@ public class CloserHandler {
 	 * @param blocks the blocks stock
 	 * @param globalFirst boolean indicates if it's the first reading
 	 * @param wasReturn
-	 * @throws ActionSyntaxInvalidException in case of invalid }, if it placed wrong.
+	 * @throws InvalidActionTerms in case of invalid }, if it placed wrong.
 	 */
 	public static void closer(LineType actionLine, Stack<Block> blocks, boolean globalFirst,
-							  boolean wasReturn) throws ActionSyntaxInvalidException {
+							  boolean wasReturn) throws InvalidActionTerms {
 		if (globalFirst && !wasReturn && (ReadFile.scopeCounter == 1 || ReadFile.scopeCounter < 1)) {
-				throw new ActionSyntaxInvalidException();
+				throw new InvalidActionTerms("there scope is not closed");
 		} else if (blocks.peek().isFunction() && globalFirst && wasReturn && ReadFile.scopeCounter==1) {
 			((Functions) blocks.peek()).addLine(actionLine);
 			blocks.pop();

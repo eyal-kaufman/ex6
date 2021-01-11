@@ -1,6 +1,7 @@
 package oop.ex6.parser;
 
 import oop.ex6.main.FindLineType;
+import oop.ex6.parser.exception.ActionSyntaxInvalidException;
 
 
 /**
@@ -22,9 +23,14 @@ public class MethodSignatureParser extends ExtractArguments {
 	 * @return - an object holding all the relevant information for a new method
 	 */
 	@Override
-	public LineType createLineObject() {
+	public LineType createLineObject() throws ActionSyntaxInvalidException {
 		String[] splitInformation = line.split("[//(//]");
-		String name = splitInformation[0].split(" ")[1].trim();
+		String[] splitName = splitInformation[0].trim().split(" ");
+		if (splitName.length != 2) {
+			throw new ActionSyntaxInvalidException();
+		}
+		String name = splitName[1].trim();
+
 		String variablesString = line.substring(line.indexOf("(") + 1,line.indexOf(')'));
 		String[] variableList = variablesString.split(",");
 		LineType lineInfo = new LineType(FindLineType.METHOD_SIGNATURE,variableList,name);

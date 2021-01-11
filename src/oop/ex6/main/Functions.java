@@ -38,6 +38,7 @@ public class Functions extends Block{
 				if (!variable.equals("")) {
 					Variable argument = VariableFactory
 							.createVariableFromArgument(variable, this.variableMap);
+					argument.setInitialized();
 					this.addParamType(argument);
 
 				}

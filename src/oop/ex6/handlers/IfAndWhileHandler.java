@@ -29,7 +29,8 @@ public class IfAndWhileHandler {
 			expression = expression.trim();
 			Variable variable = scope.isVariableInBlock(expression);
 			if (Types.BOOLEAN.checkValueType(expression)
-				|| variable != null && Types.BOOLEAN.approvedType(variable.getType())) {
+				|| variable != null && variable.isInitialized()
+				   && Types.BOOLEAN.approvedType(variable.getType())) {
 				Block newBlock = new Block(blocks.peek());
 				newBlock.updateMap();
 				blocks.push(newBlock);

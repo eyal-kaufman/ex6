@@ -17,9 +17,6 @@ import java.util.Stack;
  */
 public class ExecuteLine {
 
-	 /** indicates if the last statement was return;*/
-	private static boolean wasReturn = false;
-
 	/**
 	 * manage the action the should be done when encounter a line from the code.
 	 * @param actionLine the wrap object represents a line
@@ -34,8 +31,8 @@ public class ExecuteLine {
 			throws VariableException, ActionSyntaxInvalidException, InvalidActionTerms {
 		switch (actionLine.getLineType()) {
 		case CLOSER:
-			CloserHandler.closer(actionLine, blockStack, globalFirst, ExecuteLine.wasReturn);
-			ExecuteLine.wasReturn = false;
+			CloserHandler.closer(actionLine, blockStack, globalFirst, ReadFile.wasReturn);
+			ReadFile.wasReturn = false;
 			ReadFile.scopeCounter--;
 			return;
 		case METHOD_SIGNATURE:
@@ -43,15 +40,19 @@ public class ExecuteLine {
 			ReadFile.scopeCounter++;
 			return;
 		case VARIABLE:
-			VariableHandler.variableDeclare(scope, globalFirst, actionLine);
+			if (!ReadFile.wasReturn) {
+				VariableHandler.variableDeclare(scope, globalFirst, actionLine);
+			}
+			else{
+				throw new ActionSyntaxInvalidException();
+			}
 			return;
 		case RETURN_LINE:
-			if (scope.isGlobal()) {
-				throw new ActionSyntaxInvalidException("line supposed to be inside a method");
-			} else if(globalFirst && scope.isFunction()) {
+			ExecuteLine.isInsideLine(scope);
+			if(globalFirst && scope.isFunction()) {
 				((Functions) scope).addLine(actionLine);
 			}
-			ExecuteLine.wasReturn = true;
+			ReadFile.wasReturn = true;
 			return;
 		}
 		if(globalFirst && scope.isFunction()) {
@@ -60,29 +61,30 @@ public class ExecuteLine {
 
 		switch (actionLine.getLineType()) {
 		case IF_LINE: case WHILE_LINE:
-			if (!globalFirst){
-				IfAndWhileHandler.ifAndWhile(scope, actionLine,blockStack);
+			ExecuteLine.isInsideLine(scope);
+			if (!globalFirst) {
+				IfAndWhileHandler.ifAndWhile(scope, actionLine, blockStack);
 			}
-			ReadFile.scopeCounter ++;
+			ReadFile.scopeCounter++;
 			break;
 		case METHOD_INVOKE:
+			ExecuteLine.isInsideLine(scope);
 			if (!globalFirst){
 				MethodHandler.validMethodCall(actionLine, scope);
 			}
 		}
 	}
 
-//	/**
-//	 * make sure the line is declared in valid place.
-//	 * @param scope the current scope.
-//	 * @throws ActionSyntaxInvalidException if a line is not between return statement nad '}' do nothing, else
-//	 * it would raise an exception
-//	 */
-//	private static void isInsideLine(Block scope) throws ActionSyntaxInvalidException{
-//		//TODO is this true? if was declared return, it's wrong to declare a variable?
-//		if (scope.isGlobal() || ExecuteLine.wasReturn) {
-//			throw new ActionSyntaxInvalidException("line supposed to be inside a method and must not be " +
-//												   "after return statement");
-//		}
-//	}
+	/**
+	 * make sure the line is declared in valid place.
+	 * @param scope the current scope.
+	 * @throws ActionSyntaxInvalidException if a line is not between return statement nad '}' do nothing, else
+	 * it would raise an exception
+	 */
+	private static void isInsideLine(Block scope) throws ActionSyntaxInvalidException{
+		if (scope.isGlobal() || ReadFile.wasReturn) {
+			throw new ActionSyntaxInvalidException("line supposed to be inside a method and must not be " +
+												   "after return statement");
+		}
+	}
 }

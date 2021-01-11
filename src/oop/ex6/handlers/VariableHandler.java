@@ -2,6 +2,7 @@ package oop.ex6.handlers;
 
 import oop.ex6.main.Block;
 import oop.ex6.main.Functions;
+import oop.ex6.main.ReadFile;
 import oop.ex6.parser.LineType;
 import oop.ex6.variables.VariableException;
 import oop.ex6.variables.VariableFactory;
@@ -21,7 +22,7 @@ public class VariableHandler {
 	public static void variableDeclare(Block scope, boolean globalFirst, LineType actionLine)
 			throws VariableException {
 		if (scope.isGlobal() && globalFirst) {
-			VariableFactory.parseVariableLine(actionLine.getVariableList()[0], Block.globalVariables);
+			VariableFactory.parseVariableLine(actionLine.getVariableList()[0], ReadFile.globalVariables);
 		}
 		else if (globalFirst && scope.isFunction())  {
 			((Functions) scope).addLine(actionLine);

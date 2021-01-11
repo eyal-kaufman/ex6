@@ -1,7 +1,7 @@
 package oop.ex6.variables;
 
 
-import oop.ex6.main.Block;
+import oop.ex6.main.ReadFile;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -38,7 +38,7 @@ public class VariableFactory {
 		// if the global map is the same as the block map, so it's global initializing, and the global map
 		// would be empty in this case.
 		this.globalVariables = this.isGlobalInitializing() ? new HashMap<>():
-							   Block.globalVariables;
+							   ReadFile.globalVariables;
 		this.lineVariables = new HashMap<>();
 		this.parseDeclaration(line);
 
@@ -87,7 +87,7 @@ public class VariableFactory {
 	 * @return true if the line is from global scope, false else.
 	 */
 	private boolean isGlobalInitializing() {
-		return this.blockVariables == Block.globalVariables;
+		return this.blockVariables == ReadFile.globalVariables;
 	}
 	/**
 	 * finds the variable in global or in current scope, if exists.
@@ -183,7 +183,8 @@ public class VariableFactory {
 		String name = nameAndValue[0].trim();
 		if (this.type == null) {
 			Variable outerVariable = this.getVariable(name);
-			if (outerVariable == null || outerVariable.isFinal() && outerVariable.isInitialized()) {
+//			if (outerVariable == null || outerVariable.isFinal() && outerVariable.isInitialized()) {
+			if (outerVariable == null || outerVariable.isFinal()) {
 				return false;
 			}
 			this.type = outerVariable.getType();

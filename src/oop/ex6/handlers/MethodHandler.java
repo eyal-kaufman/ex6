@@ -28,11 +28,11 @@ public class MethodHandler {
 	public static void methodSignature(Block block, LineType lineType, Stack<Block> blocks) throws InvalidActionTerms,
 																					 VariableException {
 		String functionName = lineType.getName();
-		if (!block.isGlobal() || !Variable.isValidName(functionName)
-			|| ReadFile.functionMap.containsKey(functionName)) {
+
+		if (!block.isGlobal() || functionName.startsWith("_") || !Variable.isValidName(functionName)
+			|| ReadFile.functionMap.containsKey(functionName)|| functionName.trim().contains(" ")) {
 			throw new InvalidActionTerms("invalid method signature");
 		}
-//		Block functionBlock = new Block(block);
 		Functions functionBlock = new Functions(block);
 		functionBlock.updateVariable(lineType);
 		ReadFile.functionMap.put(functionName, functionBlock);

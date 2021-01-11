@@ -12,8 +12,6 @@ import java.util.HashMap;
  * specific method, or inner scope such as if or while section.
  */
 public class Block {
-    /** hold mapping of oop.ex6.variables objects in global scope and their name*/
-    public static HashMap<String, Variable> globalVariables = new HashMap<>();
     /** pointer to the previous block if exists*/
     private final Block previousBlock;
     /**
@@ -26,7 +24,7 @@ public class Block {
         this.previousBlock = previousBlock;
         if (previousBlock == null) {
             setIsGlobal();
-            this.variableMap = Block.globalVariables;
+            this.variableMap = ReadFile.globalVariables;
         }
     }
 
@@ -96,7 +94,7 @@ public class Block {
      * @return true if this variable exists in global scope
      */
     private static boolean isInGlobalMap(String variableName) {
-        return Block.globalVariables.containsKey(variableName);
+        return ReadFile.globalVariables.containsKey(variableName);
     }
 
     /**
@@ -105,8 +103,8 @@ public class Block {
      * @return if it finds it would return the wanted Variable object, else return null.
      */
     private static Variable getGlobalVariable(String variableName) {
-        if (Block.isInGlobalMap(variableName) && Block.globalVariables.get(variableName).isInitialized()) {
-            return Block.globalVariables.get(variableName);
+        if (Block.isInGlobalMap(variableName) && ReadFile.globalVariables.get(variableName).isInitialized()) {
+            return ReadFile.globalVariables.get(variableName);
         }
         return null;
     }

@@ -42,17 +42,18 @@ public class Sjavac {
 			BufferedReader buffer = new BufferedReader(new FileReader(args[0]));
 			ReadFile.readFirst(buffer);
 			ReadFile.readFunctionsData();
+			System.out.println(LEGAL);
 		} catch (IOException e) {
 			//TODO err
 			System.err.println(e.getMessage());
 			System.out.println(IO_EXCEPTION);
-			return;
+
 		} catch (InvalidArgsInMain | VariableException | ActionSyntaxInvalidException | InvalidActionTerms e) {
 			//TODO err
 			System.err.println(e.getMessage());
 			System.out.println(ILElGAL);
-			return;
+
 		}
-		System.out.println(LEGAL);
+
 	}
 }

@@ -190,7 +190,9 @@ public class VariableFactory {
 		}
 		return this.type.checkValueType(value) ||
 			   (Types.isVariableCasting(value) &&
-				(this.getVariable(value) != null && this.getVariable(value).isInitialized()));
+				(this.getVariable(value) != null
+				 && this.type.approvedType(this.getVariable(value).getType())
+				 &&this.getVariable(value).isInitialized()));
 	}
 
 	/**

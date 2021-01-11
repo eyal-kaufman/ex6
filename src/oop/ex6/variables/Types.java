@@ -13,11 +13,11 @@ public enum Types {
 	/**
 	 * String type member
 	 */
-	STRING("String", Pattern.compile("^\".*\"")) {
-		@Override
-		public boolean approvedType(Types type) {
-			return STRING.equals(type);
-		}
+	STRING("String", Pattern.compile("\".*\"")) {
+//		@Override
+//		public boolean approvedType(Types type) {
+//			return STRING.equals(type);
+//		}
 
 		@Override
 		public boolean checkValueType(String value) {
@@ -37,7 +37,7 @@ public enum Types {
 	/**
 	 * int type member
 	 */
-	INT("int", Pattern.compile("-?0|-?[1-9]\\d*")) {
+	INT("int", Pattern.compile("-?\\d+")) {
 		@Override
 		public boolean checkValueType(String value) {
 

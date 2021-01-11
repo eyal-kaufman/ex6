@@ -1,0 +1,26 @@
+General:
+-oop.ex6.exceptions - make the messages to be "magic numbers", more informative messages -
+    (include the problematic data)
+    types?
+        Variable exception
+        unknown line type /
+        ???
+- docString all the function and classes
+oop.ex6.handlers:
+    Closer "TODO note"
+    IfAndWhile : is the deep copy works? throw oop.ex6.exceptions in the handler.
+            more tests are needed.
+    methodHandler: "functionBlock.updateVariable(lineType);" need to update the list of
+                function oop.ex6.variables, a fix in the variable factory needed.
+    VariableHandler: nothing for now?
+
+oop.ex6.main:
+    sjavac - to write and orginize the class, invoke readFile methods and print the
+            excpetions.
+    Block - create child class named Function that implements some of Block methods
+
+
+
+
+
+

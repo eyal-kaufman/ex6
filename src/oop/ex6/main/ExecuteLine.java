@@ -17,8 +17,8 @@ import java.util.Stack;
  */
 public class ExecuteLine {
 
-	 /** indicates if the last statement was return;*/
-	private static boolean wasReturn = false;
+//	 /** indicates if the last statement was return;*/
+//	private static boolean wasReturn = false;
 
 	/**
 	 * manage the action the should be done when encounter a line from the code.
@@ -34,8 +34,8 @@ public class ExecuteLine {
 			throws VariableException, ActionSyntaxInvalidException, InvalidActionTerms {
 		switch (actionLine.getLineType()) {
 		case CLOSER:
-			CloserHandler.closer(actionLine, blockStack, globalFirst, ExecuteLine.wasReturn);
-			ExecuteLine.wasReturn = false;
+			CloserHandler.closer(actionLine, blockStack, globalFirst, ReadFile.wasReturn);
+			ReadFile.wasReturn = false;
 			ReadFile.scopeCounter--;
 			return;
 		case METHOD_SIGNATURE:
@@ -51,7 +51,7 @@ public class ExecuteLine {
 			} else if(globalFirst && scope.isFunction()) {
 				((Functions) scope).addLine(actionLine);
 			}
-			ExecuteLine.wasReturn = true;
+			ReadFile.wasReturn = true;
 			return;
 		}
 		if(globalFirst && scope.isFunction()) {

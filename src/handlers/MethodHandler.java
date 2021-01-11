@@ -1,6 +1,7 @@
 package handlers;
 
 import main.Block;
+import main.Functions;
 import main.ReadFile;
 import parser.LineType;
 import parser.exception.ActionSyntaxInvalidException;
@@ -31,7 +32,8 @@ public class MethodHandler {
 			|| ReadFile.functionMap.containsKey(functionName)) {
 			throw new ActionSyntaxInvalidException("invalid method signature");
 		}
-		Block functionBlock = new Block(block);
+//		Block functionBlock = new Block(block);
+		Functions functionBlock = new Functions(block);
 		functionBlock.updateVariable(lineType);
 		ReadFile.functionMap.put(functionName, functionBlock);
 		blocks.push(functionBlock);
@@ -52,10 +54,10 @@ public class MethodHandler {
 		String functionName = lineType.getName();
 		// the name of the function is known:
 		if (ReadFile.functionMap.containsKey(functionName)) {
-			Block function = ReadFile.functionMap.get(functionName);
+			Functions function = ReadFile.functionMap.get(functionName);
 			LinkedList<Types> params = function.getFunctionTypeParams();
 			// if the number of arguments match the number of arguments in the known function
-			if (!(params.size() == 0 && lineType.getVariableList()[0].equals(""))
+			if (params.size() == 0 && !lineType.getVariableList()[0].equals("")
 					|| params.size()!= 0 && params.size() != lineType.getVariableList().length) {
 				throw new ActionSyntaxInvalidException("invalid number of argument in method call");
 			}

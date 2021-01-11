@@ -29,7 +29,7 @@ public class IfOrWhileParser extends ExtractArguments {
 		String variablesString = this.extractArguments();
 		if (variablesString.trim().equals(""))
 			throw new ActionSyntaxInvalidException("no arguments in while/if statement");
-		String[] variableList = variablesString.split("|||||&&");
+		String[] variableList = variablesString.split("[|][|]|&&");
 		return new LineType(FindLineType.lineAction(line), variableList);
 	}
 }

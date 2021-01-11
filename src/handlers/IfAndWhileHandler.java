@@ -29,12 +29,14 @@ public class IfAndWhileHandler {
 			expression = expression.trim();
 			Variable variable = scope.isVariableInBlock(expression);
 			if (Types.BOOLEAN.checkValueType(expression)
-				|| variable != null && variable.getType().equals(Types.BOOLEAN)) {
+				|| variable != null && Types.BOOLEAN.approvedType(variable.getType())) {
 
 				Block newBlock = new Block(blocks.peek());
 //				TODO is the deep copy works?
 				newBlock.updateMap();
 				blocks.push(newBlock);
+			} else {
+				throw new ActionSyntaxInvalidException("invalid expression in if/while statement");
 			}
 		}
 

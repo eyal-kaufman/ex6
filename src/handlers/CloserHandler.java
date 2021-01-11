@@ -2,6 +2,7 @@ package handlers;
 
 import main.Block;
 import main.ExecuteLine;
+import main.Functions;
 import main.ReadFile;
 import parser.LineType;
 import parser.exception.ActionSyntaxInvalidException;
@@ -21,19 +22,21 @@ public class CloserHandler {
 	 * @param actionLine the action line represents "}"
 	 * @param blocks the blocks stock
 	 * @param globalFirst boolean indicates if it's the first reading
+	 * @param wasReturn
 	 * @throws ActionSyntaxInvalidException in case of invalid }, if it placed wrong.
 	 */
-	public static void closer(LineType actionLine, Stack<Block> blocks, boolean globalFirst) throws ActionSyntaxInvalidException {
-		if (globalFirst && !ExecuteLine.wasReturn && (ReadFile.scopeCounter == 1 || ReadFile.scopeCounter < 1)) {
+	public static void closer(LineType actionLine, Stack<Block> blocks, boolean globalFirst,
+							  boolean wasReturn) throws ActionSyntaxInvalidException {
+		if (globalFirst && !wasReturn && (ReadFile.scopeCounter == 1 || ReadFile.scopeCounter < 1)) {
 				throw new ActionSyntaxInvalidException();
-		} else if (globalFirst && ExecuteLine.wasReturn && ReadFile.scopeCounter==1) {
-			blocks.peek().addLine(actionLine);
+		} else if (blocks.peek().isFunction() && globalFirst && wasReturn && ReadFile.scopeCounter==1) {
+			((Functions) blocks.peek()).addLine(actionLine);
 			blocks.pop();
 			return;
 		} else if (!globalFirst) {
 			blocks.pop();
 			return;
 		}
-		blocks.peek().addLine(actionLine);
+		((Functions) blocks.peek()).addLine(actionLine);
 	}
 }

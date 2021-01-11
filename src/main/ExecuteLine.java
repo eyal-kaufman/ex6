@@ -10,15 +10,30 @@ import variables.VariableException;
 
 import java.util.Stack;
 
+/**
+ * managing the action the have been just read from the Sjavac code.
+ */
 public class ExecuteLine {
-	public static boolean wasReturn = false;
+
+	 /** indicates if the last statement was return;*/
+	private static boolean wasReturn = false;
+
+	/**
+	 * manage the action the should be done when encounter a line from the code.
+	 * @param actionLine the wrap object represents a line
+	 * @param scope the current scope
+	 * @param globalFirst expression indicates if this is the first reading
+	 * @param blockStack stack of scopes
+	 * @throws VariableException when the variable is not valid
+	 * @throws ActionSyntaxInvalidException when a general problem occur.
+	 */
 	public static void executeLine(LineType actionLine, Block scope, boolean globalFirst,
 								   Stack<Block> blockStack)
 			throws VariableException, ActionSyntaxInvalidException{
 		switch (actionLine.getLineType()) {
 		case CLOSER:
-			CloserHandler.closer(actionLine, blockStack, globalFirst);
-			wasReturn = false;
+			CloserHandler.closer(actionLine, blockStack, globalFirst, ExecuteLine.wasReturn);
+			ExecuteLine.wasReturn = false;
 			ReadFile.scopeCounter--;
 			return;
 		case METHOD_SIGNATURE:
@@ -31,8 +46,8 @@ public class ExecuteLine {
 		case RETURN_LINE:
 			if (scope.isGlobal()) {
 				throw new ActionSyntaxInvalidException("line supposed to be inside a method");
-			} else if(globalFirst) {
-				scope.addLine(actionLine);
+			} else if(globalFirst && scope.isFunction()) {
+				((Functions) scope).addLine(actionLine);
 			}
 			ExecuteLine.wasReturn = true;
 			return;
@@ -44,9 +59,8 @@ public class ExecuteLine {
 			}
 			return;
 		}
-		if(globalFirst) {
-			ExecuteLine.isInsideLine(scope);
-			scope.addLine(actionLine);
+		if(globalFirst && scope.isFunction()) {
+			((Functions) scope).addLine(actionLine);
 		}
 
 		switch (actionLine.getLineType()) {

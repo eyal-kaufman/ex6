@@ -18,7 +18,7 @@ public class ReadFile {
 	/** the counter of scope, indicates in what scope are we */
 	public static int scopeCounter = 0;
  	/** function hashmap hold all the function blocks in the Sjavac file*/
-	public static HashMap<String, Block> functionMap = new HashMap<>();
+	public static HashMap<String, Functions> functionMap = new HashMap<>();
 
 	/**
 	 * attempt to read the file by grouping all the lines in a method together, and check the global
@@ -50,7 +50,7 @@ public class ReadFile {
 	 * @throws VariableException in case of invalid variable.
 	 */
 	public static void readFunctionsData() throws ActionSyntaxInvalidException,VariableException {
-		for (Block function: ReadFile.functionMap.values()) {
+		for (Functions function: ReadFile.functionMap.values()) {
 			Stack<Block> functionStack = new Stack<>();
 			functionStack.push(function);
 			for (LineType actionLine: function.getBlockLines()) {

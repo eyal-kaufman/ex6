@@ -1,13 +1,11 @@
 package main;
 
-import parser.LineType;
-import variables.Types;
+
 import variables.Variable;
-import variables.VariableException;
-import variables.VariableFactory;
+
 
 import java.util.HashMap;
-import java.util.LinkedList;
+
 
 /**
  * describe a scope in Sjavac: section of code that could be described as all the global members, or
@@ -18,12 +16,6 @@ public class Block {
     public static HashMap<String, Variable> globalVariables = new HashMap<>();
     /** pointer to the previous block if exists*/
     private final Block previousBlock;
-    //TODO for function
-    /** list of all arguments' type by order for future validation*/
-    private final LinkedList<Types> functionTypeParams = new LinkedList<>();
-    //TODO for function
-    /** hold all the parsed line extracted from a method in the first reading*/
-    private final LinkedList<LineType> blockLines = new LinkedList<>();
     /**
      * all the variables in the block
      */
@@ -43,22 +35,6 @@ public class Block {
      */
     protected boolean isGlobal = false;
 
-    /**
-     * TODO: for functions
-     * updates the variable block map with given line of variables, when creating new methods.
-     * @param lineType an object wrap line of javas and its purpose.
-     * @throws VariableException if one of the variables is not valid.
-     */
-    public void updateVariable(LineType lineType) throws VariableException {
-        if (!isGlobal){
-            for (String variable : lineType.getVariableList()) {
-                if(!variable.equals("")) {
-                    Variable argument = VariableFactory.createVariableFromArgument(variable, this.variableMap);
-                    this.addParamType(argument);
-                }
-            }
-        }
-    }
 
     /**
      * inform isGlobal status
@@ -75,24 +51,13 @@ public class Block {
         this.isGlobal = true;
     }
 
-//    /**
-//     * TODO: for functions
-//     * informs that it is not a function
-//     * @return false
-//     */
-//    public boolean isFunction(){
-//        return false;
-//    }
-
     /**
-     * TODO: for functions
-     * this function adds a new function's argument to the linked list hold all of the arguments.
-     * @param variable - the variable added
+     * informs that it is not a function
+     * @return false
      */
-    public void addParamType(Variable variable){
-        this.functionTypeParams.add(variable.getType());
+    public boolean isFunction(){
+        return false;
     }
-
 
 
     /**
@@ -131,38 +96,7 @@ public class Block {
                                                                          false, false));
             }
             }
-//            HashMap<String, Variable> variableMap = (HashMap<String,
-//            Variable>) previousBlock.getVariableMap().entrySet()
-//                    .stream()
-//                    .filter(map -> map.getValue().isInitialized())
-//                    .collect(Collectors.toMap(HashMap.Entry::getKey, HashMap.Entry::getValue));
-            
         }
-    }
-    /**
-     * TODO: for functions
-     * add LineType object to the block's line pool, relevant for method blocks only.
-     * @param line object wrap a javas code line with its relevant params
-     */
-    public void addLine(LineType line) {
-        this.blockLines.add(line);
-    }
-
-    /**
-     * TODO: for functions
-     * return the pool of lines this block has, relevant only for method blocks.
-     * @return linked list hold all lines refer ot this method block
-     */
-    public LinkedList<LineType> getBlockLines() {
-        return blockLines;
-    }
-
-    /**
-     * return the global vairable map
-     * @return the global vairable map
-     */
-    public static HashMap<String, Variable> getGlobalMap(){
-        return Block.globalVariables;
     }
 
     /**
@@ -186,12 +120,5 @@ public class Block {
         return null;
     }
 
-    /**
-     * TODO: for functions
-     * return the types linked list, conatins all the types of method argument by order.
-     * @return linked list of arguments' types.
-     */
-    public LinkedList<Types> getFunctionTypeParams(){
-        return this.functionTypeParams;
-    }
+
 }

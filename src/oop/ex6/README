@@ -94,13 +94,36 @@ problem. Every package has it own exceptions sub package, and in every one of th
 the other classes in the sub package are inherited from, so when attempting to catch an exception in the main
 package it would try to catch only the higher hierarchy of exception classes
 
-
+Some of the design principals we use in this program:
+Single choice principal - The enum Classes such as Types and FindLineType that contains a lot of logic related
+to the types and accepted actions in javas are only there.
+Encapsulate - the implementation of ReadFile encapsulate the process of reading and validation of the file.
+Open close -  the Sjavac class represents to the client only the main actions occur in this program and
+shallow the implementation of it.
+Factory - The VariableFactory and Parser classes use the factory design pattern, get input and create some
+Objects accordingly.
+parser - this was useful when we wanted to know what kind of line we got to.
+in parser package we analyzed the different kind of line.
+each line we extracted the relevant information for future usage.
 
 =============================
 =  Implementation details   =
 =============================
 
+In order to implement an object represent a scope, we write Block and Function class. the Block class
+represent the if/while and global scope, so the Function class is inheritor of Block class, and represent
+specifically a method scope. we chose this kind of partition between these scope because the behavior excepted
+from a method is different from behavior of the others, in example every method saves LinkedList of its
+arguments, and attempt to save those as local variables, this kind of behavior is unique for function.
+Another issue of implementation, is that we created some static variable in ReadFile that used for counting
+the closer blocks, for storing all the method sections encounter while iterate the file and more.
 
+In order to parse the sjava code, we use Enum class named FundLineType, this line use REGEX to determinate
+which action this line related to. if it none is found, then it would throw an exception.
+
+For understanding if casting or declaration of a variable is valid or not, related to type issues,
+the program use the Enum class named Types, this class hold all the logic related to Types in sjava, such as
+which type accept the other, what are the types in sjava, and more.
 
 
 =============================
@@ -111,3 +134,42 @@ In your README file, please describe two of the main regular expressions you
 used in your code.
 
 How would you modify your code to add new types of variables (e.g., float)?
+
+add any modifier to the enum Type as we wish.
+add to the new modifier added the appropriate Pattern and a string of the new name type.
+
+
+How would you modify your code to add new method types (e.g., float)?
+
+we would add a new modifier to enum Types,
+in the enum FindLineType we will add to the regex any one of the Type options.
+will add another field to the Functions class, that holds the return type wanted.
+and when we check if the signature statement is valid, we will add the type to the new field we added.
+and each time we hit a return statement (in ExecuteLine) we will add another ultimatum,
+checking that the the type being returned matches the signature return type.
+
+
+which modifications/extensions you would have to make in your code
+in order to support classes?
+
+the way we check the program now is as we are checking one class only.
+to support a file that has many class all we need to is add an external class that manages all the different class.
+we will create a data structure that holds an object of class, and each time we reach a new class we checks it validity,
+meaning it is valid syntax wise.
+the we send it to our current program, all the validity tests we have there now are accurate for a class.
+
+
+this regex is used for determinate a signature of a method:
+[\t ]*void[\t ]+\\w.*[\t ]*[(][ \t]*.*[ \t]*[)][\t ]*\\{[\t ]*
+In addition to accept zero or more white spaces and tabs in the signature, I used
+[ \t]* as separator between every sign, for guarantee the line ends with { I put
+this sign at the end, in addition to verify pretenses, I search for:
+[(][ \t]*.*[ \t]*[)]
+so even no argument in a method would be accept, as long as many white spaces there.
+
+This regex is used for finding the type and modifier of a variable:
+[ \t]+\w+$|\w+[ \t]*[,;=]
+using the Matcher.find method, the program can split the variable line into two parts,
+modifier & type, and the variable name and value (if exists).
+in this regex I used or operator to allow 2 options, the first is \w signs ending, specifically for
+method arguments, and the second one for normal variable declaration and casting.

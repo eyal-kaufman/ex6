@@ -1,7 +1,7 @@
 package oop.ex6.variables.exceptions;
 
 /**
- * exception called the variable name is invalid
+ * this class inherits from VariableException and throws an exception when the variable name is invalid
  */
 public class InvalidVariableNameException extends VariableException {
 

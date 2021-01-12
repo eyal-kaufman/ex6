@@ -2,7 +2,8 @@ package oop.ex6.parser.exception;
 
 
 /**
- * this class throws an exception when there is an action being called to be done in an invalid location
+ * this class inherits from ActionSyntaxInvalidException throws an exception when there is an action being called
+ * to be done in an invalid location
  */
 public class InvalidLineLocationException extends ActionSyntaxInvalidException {
 

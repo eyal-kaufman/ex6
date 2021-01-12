@@ -2,7 +2,8 @@ package oop.ex6.handlers.exception;
 
 
 /**
- * this class throws an exception when the scope is not closed properly
+ * this class inherits from InvalidActionTermException throws an exception when the
+ *scope is not closed properly.
  */
 public class ScopeNotClosedException extends InvalidActionTermsException {
 	/**

@@ -2,7 +2,7 @@ package oop.ex6.variables.exceptions;
 
 
 /**
- * exception called when a variable declaration is invalid
+ * this class inherits from VariableException and throws an exception when a variable declaration is invalid
  */
 public class InvalidDeclarationException extends VariableException {
 

@@ -1,7 +1,7 @@
 package oop.ex6.parser.exception;
 
 /**
- * this class throws an exception when the syntax of if or while are invalid
+ * this class inherits from ActionSyntaxInvalidException throws an exception when the syntax of if or while are invalid
  */
 public class IfAndWilException extends ActionSyntaxInvalidException {
 

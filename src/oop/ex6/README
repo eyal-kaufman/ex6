@@ -1,0 +1,113 @@
+avital_kasz
+
+eyalhod
+
+=============================
+=      File description     =
+=============================
+
+main package - this package handles the whole program.
+    Sjavac.java - this class handles and starts the whole program.
+    ReadFile - this class attempts to read the Sjavac file.
+    Block - this class describe a scope in Sjavac: section of code that could be described as all the global members, or
+                  specific method, or inner scope such as if or while section.
+    ExcuteLine - this class manages the action the have been just read from the Sjavac code.
+    FindLineType - this enum finds and creates the type of the specific line being checked.
+    Functions - thi class describes method block, hold all list of all the lines refer to it, can add variable that
+                 declared as argument in the signature to new Variable objects,
+                 and contains a list of the their types by order.
+    exceptions - this package maintains all the exceptions relevant to the main package.
+        InvalidArgsInMain - this class throws an exception when there is the wrong amount of arguments given by user.
+
+
+parser package - this package handles all that has to do with the first reading of the file.
+    Parser - this class gathers all the relevant information each line has, saves it in an object for future usage.
+    ExtractArguments - this class is an abstract class, its purpose is to create new objects of type LineType.
+    LineType - this class created the object maintaining all the information needed.
+    IfOrWhileParser - this class inherits from ExtractArguments its purpose is to create new objects of type
+                      LineType according to if and while lines.
+    MethodInvokeParser - this class inherits from ExtractArguments its purpose is to create new objects of type
+                         LineType according creating new method.
+    MethodSignatureParser - this class inherits from ExtractArguments
+                            its purpose is to create new objects of type LineType according to calling a function.
+    exception package - this package handles all exceptions relevant to the parser package.
+        ActionSyntaxInvalidException - this class throws an exception when the lines syntax is invalid.
+        IfAndWileException -  this class inherits from ActionSyntaxInvalidException throws an exception when the syntax
+                              of if or while are invalid.
+        InvalidLineLocationException - this class inherits from ActionSyntaxInvalidException and throws an exception
+                                        when there is an action being called to be done in an invalid location.
+
+variables package - this package handles all that has to do with the variables.
+    Variable - this class defines variable in this project
+    Types - define the types in Sjavac. support the following:
+             checking if given value is in the same type as the enum member.
+             if the given type is approved by enum member.
+    VariableFactory - this class create variable object from given line and add it to the block map directly.
+    exception package - this package handles all exceptions relevant to the variables package.
+        Variable Exception - this class is  called when a variable is not valid.
+        InvalidCastingException - this class inherits from VariableException and throws an exception when
+                                  a variable casted in an invalid way
+        InvalidDeclarationException - this class inherits from VariableException and throws an exception when a
+                                      variable declaration is invalid
+        InvalidVariableNameException - this class inherits from VariableException and throws an exception when the
+                                       variable name is invalid
+
+handlers package - this package handles the different validity situations of the file being read from.
+    CloseHandler - this class handles the case of encounter } sign.
+    IfAndWileHandler - this class handles the situation when encounter if or while statements.
+    MethodHandler - this class handles the situation when encounter method signature or method call.
+    VariableHandler - this class handles the case of encounter variable declaration line.
+    exception package - this package handles all exceptions relevant to the handlers package.
+        InvalidActionTermsException - this class throws an exception when the content of the action is invalid.
+        InvalidMethodSignatureException - this class inherits from InvalidActionTermException throws an exception
+                                          when the signature is invalid.
+        ScopeNotClosedException - this class inherits from InvalidActionTermException throws an exception when the
+                                  scope is not closed properly.
+
+
+=============================
+=          Design           =
+=============================
+
+You are required to specify your design, as well as your thinking process and the alternatives you
+ruled out, in your README file
+
+
+In order to check the validity of Sjava file, the program read the file twice, first time as Strings from a
+file, and second time iterating over wrap lines objects the contain the content of a line and its purpose.
+
+At the end of the first reading process, the program would split the lines that are in a global scope
+and the ones inside methods, so all the lines related to a global scope will be valid, and all the methods
+inside blocks will be stored in a data structure, each of the methods will be stored as Function object that
+hold a pool of lines that placed inside their scope.
+The first Reading is using bufferReading for iterating over the file, and for each line, it create an object
+from it, and store the data from the line for future validation and usage, during process it make some basic
+validation tests, like if the line ends with one of the suffix: ";{}" and validate methods' signatures.
+
+After this, the advanced reading method get invoked (named "readFunctionsData"), this method iterates over all
+ the methods that exist in the sjava code, and test for validity of the lines objects ("LineType") that stored
+  in them, and for each of that it check for validity.
+
+Exceptions:
+Anytime an error or a syntax issue occur, it would throw an exception with an informative message of the
+problem. Every package has it own exceptions sub package, and in every one of them has a super class that all
+the other classes in the sub package are inherited from, so when attempting to catch an exception in the main
+package it would try to catch only the higher hierarchy of exception classes
+
+
+
+=============================
+=  Implementation details   =
+=============================
+
+
+
+
+=============================
+=    Answers to questions   =
+=============================
+
+In your README file, please describe two of the main regular expressions you
+used in your code.
+
+How would you modify your code to add new types of variables (e.g., float)?

@@ -2,7 +2,7 @@ package oop.ex6.handlers.exception;
 
 
 /**
- * this class throws an exception when the signature is invalid
+ * this class inherits from InvalidActionTermException throws an exception when the signature is invalid
  */
 public class InvalidMethodSignatureException extends InvalidActionTermsException {
 

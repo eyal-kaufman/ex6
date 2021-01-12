@@ -1,9 +1,9 @@
 package oop.ex6.main;
 
-import oop.ex6.handlers.exception.InvalidActionTerms;
+import oop.ex6.handlers.exception.InvalidActionTermsException;
 import oop.ex6.main.exceptions.InvalidArgsInMain;
 import oop.ex6.parser.exception.ActionSyntaxInvalidException;
-import oop.ex6.variables.VariableException;
+import oop.ex6.variables.exceptions.VariableException;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -18,7 +18,7 @@ public class Sjavac {
 	/**
 	 * printed if the program is ilegal
 	 */
-	final static private int ILElGAL = 1;
+	final static private int ILLEGAL = 1;
 	/**
 	 * printed if the program is legal
 	 */
@@ -31,9 +31,10 @@ public class Sjavac {
 	/**
 	 * this function runs the program making sure that the file is written and
 	 * handled in a valid way.
+	 *
 	 * @param args - the file the user sends to check the files content validity.
 	 */
-	public static void main(String[] args){
+	public static void main(String[] args) {
 
 		try {
 			if (args.length != 1) {
@@ -44,14 +45,12 @@ public class Sjavac {
 			ReadFile.readFunctionsData();
 			System.out.println(LEGAL);
 		} catch (IOException e) {
-			//TODO err
 			System.err.println(e.getMessage());
 			System.out.println(IO_EXCEPTION);
 
-		} catch (InvalidArgsInMain | VariableException | ActionSyntaxInvalidException | InvalidActionTerms e) {
-			//TODO err
+		} catch (InvalidArgsInMain | VariableException | ActionSyntaxInvalidException | InvalidActionTermsException e) {
 			System.err.println(e.getMessage());
-			System.out.println(ILElGAL);
+			System.out.println(ILLEGAL);
 
 		}
 

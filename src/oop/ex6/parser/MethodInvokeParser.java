@@ -6,10 +6,11 @@ import oop.ex6.main.FindLineType;
  * this is class inherits from ExtractArguments
  * its purpose is to create new objects of type LineType according creating new method
  */
-public class MethodInvokeParser extends ExtractArguments{
+public class MethodInvokeParser extends ExtractArguments {
 
 	/**
 	 * constructor
+	 *
 	 * @param line - the line read from the file
 	 */
 	MethodInvokeParser(String line) {
@@ -18,6 +19,7 @@ public class MethodInvokeParser extends ExtractArguments{
 
 	/**
 	 * this function creates LineType object according to calling a function
+	 *
 	 * @return - an object holding all the relevant information for calling a function
 	 */
 	@Override

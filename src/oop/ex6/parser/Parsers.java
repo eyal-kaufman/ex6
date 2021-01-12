@@ -10,6 +10,7 @@ import oop.ex6.parser.exception.ActionSyntaxInvalidException;
 public class Parsers {
 	/**
 	 * this function gathers all information of the lines action
+	 *
 	 * @param line - the line being read
 	 * @return - an LineType object
 	 * @throws ActionSyntaxInvalidException - if the line syntax is invalid.
@@ -17,15 +18,17 @@ public class Parsers {
 	public static LineType lineParser(String line) throws ActionSyntaxInvalidException {
 		FindLineType findLineType = FindLineType.lineAction(line);
 		ExtractArguments lineInfo;
-		switch (findLineType){
+		switch (findLineType) {
 			case CLOSER:
 				return new LineType(FindLineType.CLOSER);
-			case IF_LINE:case WHILE_LINE:
+			case IF_LINE:
+			case WHILE_LINE:
 				lineInfo = new IfOrWhileParser(line);
 				return lineInfo.createLineObject();
 			case RETURN_LINE:
 				return new LineType(FindLineType.RETURN_LINE);
-			case EMPTY_LINE: case COMMENT:
+			case EMPTY_LINE:
+			case COMMENT:
 				return new LineType(FindLineType.lineAction(line));
 			case METHOD_INVOKE:
 				lineInfo = new MethodInvokeParser(line);
@@ -34,7 +37,7 @@ public class Parsers {
 				lineInfo = new MethodSignatureParser(line);
 				return lineInfo.createLineObject();
 			case VARIABLE:
-				return new LineType(FindLineType.VARIABLE,new String[]{line});
+				return new LineType(FindLineType.VARIABLE, new String[]{line});
 		}
 		throw new ActionSyntaxInvalidException();
 	}

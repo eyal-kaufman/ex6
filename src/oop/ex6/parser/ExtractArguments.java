@@ -15,14 +15,16 @@ public abstract class ExtractArguments {
 
 	/**
 	 * constructor
+	 *
 	 * @param line - the line read from the file
 	 */
-	ExtractArguments(String line){
+	ExtractArguments(String line) {
 		this.line = line;
 	}
 
 	/**
 	 * this function creates the relevant object LineType
+	 *
 	 * @return - an object holding all the relevant information from the line given
 	 * @throws ActionSyntaxInvalidException - if the syntax in the line is invalid
 	 */
@@ -30,9 +32,10 @@ public abstract class ExtractArguments {
 
 	/**
 	 * extract the arguments from parentheses, if exists.
+	 *
 	 * @return string exclude the parentheses and containing only the oop.ex6.variables
 	 */
-	protected String extractArguments(){
+	protected String extractArguments() {
 		int leftParenthesis = this.line.indexOf('(');
 		int rightParenthesis = this.line.indexOf(')');
 

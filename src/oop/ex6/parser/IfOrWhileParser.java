@@ -2,6 +2,7 @@ package oop.ex6.parser;
 
 import oop.ex6.main.FindLineType;
 import oop.ex6.parser.exception.ActionSyntaxInvalidException;
+import oop.ex6.parser.exception.IfAndWilException;
 
 /**
  * this is class inherits from ExtractArguments
@@ -11,24 +12,24 @@ public class IfOrWhileParser extends ExtractArguments {
 
 	/**
 	 * constructor
+	 *
 	 * @param line - the line read from the file
 	 */
-	IfOrWhileParser(String line){
+	IfOrWhileParser(String line) {
 		super(line);
 	}
 
 	/**
 	 * this function creates LineType object according to a if or while line
+	 *
 	 * @return - an object holding all the relevant information for if or while action
 	 * @throws ActionSyntaxInvalidException - if the syntax in the line is invalid
 	 */
 	@Override
 	public LineType createLineObject() throws ActionSyntaxInvalidException {
-		String[] splitInformation = line.split("[//(//]");
-//		String variablesString = line.substring(line.indexOf("(") + 1,line.indexOf(')'));
 		String variablesString = this.extractArguments();
 		if (variablesString.trim().equals(""))
-			throw new ActionSyntaxInvalidException("no arguments in while/if statement");
+			throw new IfAndWilException();
 		String[] variableList = variablesString.split("[|][|]|&&");
 		return new LineType(FindLineType.lineAction(line), variableList);
 	}

@@ -24,9 +24,10 @@ public class LineType {
 
 	/**
 	 * constructor
+	 *
 	 * @param lineType - the type of action
 	 */
-	LineType(FindLineType lineType){ /// for COMMENT, RETURN, EMPTY_LINE
+	LineType(FindLineType lineType) { /// for COMMENT, RETURN, EMPTY_LINE
 		this.lineType = lineType;
 		this.variableList = null;
 		this.name = null;
@@ -34,10 +35,11 @@ public class LineType {
 
 	/**
 	 * constructor
-	 *  @param lineType - the type of action
-	  * @param variableList - the list of oop.ex6.variables
+	 *
+	 * @param lineType     - the type of action
+	 * @param variableList - the list of oop.ex6.variables
 	 */
-	LineType(FindLineType lineType, String[] variableList){ // IF, WHILE
+	LineType(FindLineType lineType, String[] variableList) { // IF, WHILE
 		this.lineType = lineType;
 		this.variableList = variableList;
 		this.name = null;
@@ -45,11 +47,12 @@ public class LineType {
 
 	/**
 	 * constructor
-	 * @param lineType - the type of action
+	 *
+	 * @param lineType     - the type of action
 	 * @param variableList - the list of oop.ex6.variables
-	 * @param name - name of the function
+	 * @param name         - name of the function
 	 */
-	LineType(FindLineType lineType, String[] variableList,String name){ // INVOKE_METHOD, SIGNATURE_METHOD
+	LineType(FindLineType lineType, String[] variableList, String name) { // INVOKE_METHOD, SIGNATURE_METHOD
 		this.lineType = lineType;
 		this.variableList = variableList;
 		this.name = name;
@@ -58,6 +61,7 @@ public class LineType {
 
 	/**
 	 * getter for the oop.ex6.variables
+	 *
 	 * @return - variable list
 	 */
 	public String[] getVariableList() {
@@ -66,6 +70,7 @@ public class LineType {
 
 	/**
 	 * getter for LineType
+	 *
 	 * @return - LineType
 	 */
 	public FindLineType getLineType() {
@@ -74,6 +79,7 @@ public class LineType {
 
 	/**
 	 * getter for name
+	 *
 	 * @return the name of the action
 	 */
 	public String getName() {

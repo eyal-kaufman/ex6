@@ -52,7 +52,8 @@ public enum FindLineType {
 	private final Pattern pattern;
 
 	/**
-	 *  return the pattern being matched to
+	 * return the pattern being matched to
+	 *
 	 * @param pattern - the pattern matched to the line
 	 */
 	FindLineType(Pattern pattern) {
@@ -61,6 +62,7 @@ public enum FindLineType {
 
 	/**
 	 * checksif the line sent matches the pattern
+	 *
 	 * @param line - the line being checked on
 	 * @return - if the line is a match to the pattern
 	 */
@@ -70,6 +72,7 @@ public enum FindLineType {
 
 	/**
 	 * finds what kind of object the line is
+	 *
 	 * @param line- the line being checked on
 	 * @return - returns the object the line is
 	 * @throws ActionSyntaxInvalidException - if the line matches no object

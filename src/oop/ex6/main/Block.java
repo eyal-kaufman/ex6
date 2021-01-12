@@ -24,6 +24,7 @@ public class Block {
 	/**
 	 * create new block so if there is no pointer to previous block, it would set it as global
 	 * scope.
+	 * @param previousBlock pointer to the previous block related to this new one.
 	 */
 	public Block(Block previousBlock) {
 		this.previousBlock = previousBlock;

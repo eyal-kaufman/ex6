@@ -14,6 +14,7 @@ public class ActionSyntaxInvalidException extends Exception {
 
 	/**
 	 * * this function has an informative message sent from the program explaining what the exception is
+	 * @param message exception message
 	 **/
 	public ActionSyntaxInvalidException(String message) {
 		super(message);

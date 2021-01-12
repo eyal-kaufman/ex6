@@ -8,6 +8,7 @@ public class InvalidActionTermsException extends Exception {
 
 	/**
 	 * * this function has an informative message sent from the program explaining what the exception is
+	 * @param message exception message
 	 **/
 	public InvalidActionTermsException(String message) {
 		super(message);

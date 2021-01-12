@@ -27,6 +27,7 @@ public class ExecuteLine {
 	 * @param blockStack  stack of scopes
 	 * @throws VariableException            when the variable is not valid
 	 * @throws ActionSyntaxInvalidException when a general problem occur.
+	 * @throws InvalidActionTermsException  in case of invalid content in line
 	 */
 	public static void executeLine(LineType actionLine, Block scope, boolean globalFirst,
 	                               Stack<Block> blockStack)

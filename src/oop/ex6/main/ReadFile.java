@@ -42,6 +42,7 @@ public class ReadFile {
 	 * @throws IOException                  in case of problem when reading the file
 	 * @throws ActionSyntaxInvalidException in case of invalid line.
 	 * @throws VariableException            in case of invalid variable.
+	 * @throws InvalidActionTermsException  in case of invalid content in line
 	 */
 	public static void readFirst(BufferedReader reader)
 			throws IOException, ActionSyntaxInvalidException, VariableException, InvalidActionTermsException {
@@ -68,8 +69,10 @@ public class ReadFile {
 	 *
 	 * @throws ActionSyntaxInvalidException in case of invalid line.
 	 * @throws VariableException            in case of invalid variable.
+	 * @throws InvalidActionTermsException  in case of invalid content in line
 	 */
-	public static void readFunctionsData() throws ActionSyntaxInvalidException, VariableException, InvalidActionTermsException {
+	public static void readFunctionsData() throws ActionSyntaxInvalidException, VariableException,
+												  InvalidActionTermsException {
 
 		wasReturn = false;
 		for (Functions function : ReadFile.functionMap.values()) {

@@ -1,0 +1,54 @@
+avital_kasz
+
+eyalhod
+
+=============================
+=      File description     =
+=============================
+
+
+=============================
+=          Design           =
+=============================
+You are required to specify your design, as well as your thinking process and the alternatives you
+ruled out, in your README file
+
+
+In order to check the validity of Sjava file, the program read the file twice, first time as Strings from a
+file, and second time iterating over wrap lines objects the contain the content of a line and its purpose.
+
+At the end of the first reading process, the program would split the lines that are in a global scope
+and the ones inside methods, so all the lines related to a global scope will be valid, and all the methods
+inside blocks will be stored in a data structure, each of the methods will be stored as Function object that
+hold a pool of lines that placed inside their scope.
+The first Reading is using bufferReading for iterating over the file, and for each line, it create an object
+from it, and store the data from the line for future validation and usage, during process it make some basic
+validation tests, like if the line ends with one of the suffix: ";{}" and validate methods' signatures.
+
+After this, the advanced reading method get invoked (named "readFunctionsData"), this method iterates over all
+ the methods that exist in the sjava code, and test for validity of the lines objects ("LineType") that stored
+  in them, and for each of that it check for validity.
+
+Exceptions:
+Anytime an error or a syntax issue occur, it would throw an exception with an informative message of the
+problem. Every package has it own exceptions sub package, and in every one of them has a super class that all
+the other classes in the sub package are inherited from, so when attempting to catch an exception in the main
+package it would try to catch only the higher hierarchy of exception classes
+
+
+
+=============================
+=  Implementation details   =
+=============================
+
+
+
+
+=============================
+=    Answers to questions   =
+=============================
+
+In your README file, please describe two of the main regular expressions you
+used in your code.
+
+How would you modify your code to add new types of variables (e.g., float)?

@@ -19,13 +19,13 @@ public class IfAndWhileHandler {
 	 * checks if the expressions inside them are valid booleans, if so it would create new
 	 * block that copies its "father" block's variable map.
 	 *
-	 * @param scope      the current scope
 	 * @param actionLine object wrap the if/while statement
 	 * @param blocks     the stack of the scopes
 	 * @throws ActionSyntaxInvalidException in case of invalid if or while statement
 	 */
-	public static void ifAndWhile(Block scope, LineType actionLine, Stack<Block> blocks) throws
+	public static void ifAndWhile(LineType actionLine, Stack<Block> blocks) throws
 			ActionSyntaxInvalidException {
+		Block scope = blocks.peek();
 		for (String expression : actionLine.getVariableList()) {
 			expression = expression.trim();
 			Variable variable = scope.isVariableInBlock(expression);

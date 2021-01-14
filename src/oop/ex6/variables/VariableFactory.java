@@ -39,7 +39,8 @@ public class VariableFactory {
 	 * hold all the oop.ex6.variables defined in global scope
 	 */
 	private final Map<String, Variable> globalVariables;
-
+	/** represents if a variable is global or not*/
+	private boolean isGlobal;
 	/**
 	 * invoke from static method trigger the factory.
 	 *
@@ -48,6 +49,7 @@ public class VariableFactory {
 	 * @throws VariableException in case the line it's not valid.
 	 */
 	private VariableFactory(String line, Map<String, Variable> blockVariables) throws VariableException {
+		this.isGlobal = false;
 		this.blockVariables = blockVariables;
 		this.globalVariables = this.isGlobalInitializing() ? new HashMap<>() :
 				ReadFile.globalVariables;
@@ -207,6 +209,10 @@ public class VariableFactory {
 			if (outerVariable == null || outerVariable.isFinal()) {
 				return false;
 			}
+			if (outerVariable.isGlobal()) {
+				this.isGlobal = true;
+			}
+
 			this.type = outerVariable.getType();
 		}
 		return this.type.checkValueType(value) ||
@@ -219,7 +225,10 @@ public class VariableFactory {
 	/**
 	 * check if variable is valid, check the name and value of it.
 	 * if it's valid it would create new Variable object and add it to the block map.
-	 *
+	 * check the following:
+	 * 		name is not valid.
+	 * 		type is null without trying to cast a value to the variable
+	 * 		the value to cast is not valid
 	 * @param var       variable line excluding the type and modifier
 	 * @param isCasting expression indicates if it's casting or not.
 	 * @throws VariableException in case of invalid variable.
@@ -227,10 +236,7 @@ public class VariableFactory {
 	private void checkVariable(String var, boolean isCasting) throws VariableException {
 		String[] nameAndValue = var.split("=", 2);
 		String variableName = nameAndValue[0].trim();
-		// check the following:
-		//name is not valid.
-		//type is null without trying to cast a value to the variable
-		//the value to cast is not valid
+
 		if (!this.checkName(variableName) || (this.type == null || this.isFinal) && !isCasting
 				|| isCasting && !this.checkValue(nameAndValue)) {
 			throw new InvalidVariableNameException(variableName);
@@ -249,19 +255,15 @@ public class VariableFactory {
 	 */
 	private void updateMap(boolean isCasting, String variableName) {
 		Variable oldVariable = this.getVariable(variableName);
-		boolean isGlobal;
 
 		if ((this.variableInBlock(variableName) || this.isGlobalInitializing()) && oldVariable != null) {
 			oldVariable.setInitialized();
 			return;
-		} else if (this.blockVariables.containsKey(variableName)) {
-			isGlobal = true;
+		} else if (this.isGlobalInitializing()) {
+			this.isGlobal = true;
+		}
 
-		} else if (oldVariable != null) {
-			isGlobal = false;
-
-		} else isGlobal = this.isGlobalInitializing();
-		Variable newVariable = new Variable(variableName, this.type, this.isFinal, isCasting, isGlobal);
+		Variable newVariable = new Variable(variableName, this.type, this.isFinal, isCasting, this.isGlobal);
 		this.blockVariables.put(variableName, newVariable);
 		this.lineVariables.put(variableName, newVariable);
 

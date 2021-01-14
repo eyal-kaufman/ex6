@@ -22,21 +22,21 @@ public class MethodHandler {
 	 * method signature, and the variable declaration inside it, in case of valid input it would add this
 	 * new function to the function map, and change the current scope to be this new method.
 	 *
-	 * @param block    the current scope
 	 * @param lineType object wrap the method signature
 	 * @param blocks   stack of blocks
 	 * @throws InvalidActionTermsException in case of invalid name of a method/wrong place/exists name.
 	 * @throws VariableException  in case of invalid variable declaration in the method's signature
 	 */
-	public static void methodSignature(Block block, LineType lineType, Stack<Block> blocks) throws InvalidActionTermsException,
-			VariableException {
+	public static void methodSignature(LineType lineType, Stack<Block> blocks) throws InvalidActionTermsException,
+																					  VariableException {
+		Block scope = blocks.peek();
 		String functionName = lineType.getName();
 
-		if (!block.isGlobal() || functionName.startsWith("_") || !Variable.isValidName(functionName)
+		if (!scope.isGlobal() || functionName.startsWith("_") || !Variable.isValidName(functionName)
 				|| ReadFile.functionMap.containsKey(functionName) || functionName.trim().contains(" ")) {
 			throw new InvalidMethodSignatureException();
 		}
-		Functions functionBlock = new Functions(block);
+		Functions functionBlock = new Functions(scope);
 		functionBlock.updateVariable(lineType);
 		ReadFile.functionMap.put(functionName, functionBlock);
 		blocks.push(functionBlock);

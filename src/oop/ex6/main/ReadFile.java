@@ -55,9 +55,8 @@ public class ReadFile {
 		blockStack.push(globalScope);
 		String line = reader.readLine();
 		while (line != null) {
-			Block scope = blockStack.peek();
 			LineType actionLine = Parsers.lineParser(line);
-			ExecuteLine.executeLine(actionLine, scope, true, blockStack);
+			ExecuteLine.executeLine(actionLine, true, blockStack);
 			line = reader.readLine();
 		}
 
@@ -80,7 +79,7 @@ public class ReadFile {
 			Stack<Block> functionStack = new Stack<>();
 			functionStack.push(function);
 			for (LineType actionLine : function.getBlockLines()) {
-				ExecuteLine.executeLine(actionLine, functionStack.peek(), false, functionStack);
+				ExecuteLine.executeLine(actionLine, false, functionStack);
 			}
 		}
 		if (ReadFile.scopeCounter == 1) {

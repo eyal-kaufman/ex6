@@ -9,7 +9,7 @@ public class ActionSyntaxInvalidException extends Exception {
 	 * * this function has an informative message explaining what the exception is
 	 **/
 	public ActionSyntaxInvalidException() {
-		super("ERROR: the lines syntax is invalid ");
+		super("Error: the lines syntax is invalid ");
 	}
 
 	/**

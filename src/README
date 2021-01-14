@@ -79,10 +79,6 @@ handlers package - this package handles the different validity situations of the
 =          Design           =
 =============================
 
-You are required to specify your design, as well as your thinking process and the alternatives you
-ruled out, in your README file
-
-
 In order to check the validity of Sjava file, the program read the file twice, first time as Strings from a
 file, and second time iterating over wrap lines objects the contain the content of a line and its purpose.
 

@@ -22,16 +22,16 @@ public class ExecuteLine {
 	 * manage the action the should be done when encounter a line from the code.
 	 *
 	 * @param actionLine  the wrap object represents a line
-	 * @param scope       the current scope
 	 * @param globalFirst expression indicates if this is the first reading
 	 * @param blockStack  stack of scopes
 	 * @throws VariableException            when the variable is not valid
 	 * @throws ActionSyntaxInvalidException when a general problem occur.
 	 * @throws InvalidActionTermsException  in case of invalid content in line
 	 */
-	public static void executeLine(LineType actionLine, Block scope, boolean globalFirst,
-	                               Stack<Block> blockStack)
+	public static void executeLine(LineType actionLine, boolean globalFirst,
+								   Stack<Block> blockStack)
 			throws VariableException, ActionSyntaxInvalidException, InvalidActionTermsException {
+		Block scope = blockStack.peek();
 		switch (actionLine.getLineType()) {
 			case CLOSER:
 				CloserHandler.closer(actionLine, blockStack, globalFirst, ReadFile.wasReturn);
@@ -39,7 +39,7 @@ public class ExecuteLine {
 				ReadFile.scopeCounter--;
 				return;
 			case METHOD_SIGNATURE:
-				MethodHandler.methodSignature(scope, actionLine, blockStack);
+				MethodHandler.methodSignature(actionLine, blockStack);
 				ReadFile.scopeCounter++;
 				return;
 			case VARIABLE:
@@ -66,7 +66,7 @@ public class ExecuteLine {
 			case WHILE_LINE:
 				ExecuteLine.isInsideLine(scope);
 				if (!globalFirst) {
-					IfAndWhileHandler.ifAndWhile(scope, actionLine, blockStack);
+					IfAndWhileHandler.ifAndWhile(actionLine, blockStack);
 				}
 				ReadFile.scopeCounter++;
 				break;

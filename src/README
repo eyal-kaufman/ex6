@@ -94,11 +94,6 @@ After this, the advanced reading method get invoked (named "readFunctionsData"),
  the methods that exist in the sjava code, and test for validity of the lines objects ("LineType") that stored
   in them, and for each of that it check for validity.
 
-Exceptions:
-Anytime an error or a syntax issue occur, it would throw an exception with an informative message of the
-problem. Every package has it own exceptions sub package, and in every one of them has a super class that all
-the other classes in the sub package are inherited from, so when attempting to catch an exception in the main
-package it would try to catch only the higher hierarchy of exception classes
 
 Some of the design principals we use in this program:
 Single choice principal - The enum Classes such as Types and FindLineType that contains a lot of logic related
@@ -139,7 +134,7 @@ specifically a method scope. we chose this kind of partition between these scope
 Another issue of implementation, is that we created some static variable in ReadFile that used for counting
 the closer blocks, for storing all the method sections encounter while iterate the file and more.
 
-In order to parse the sjava code, we use Enum class named FundLineType, this line use REGEX to determinate
+In order to parse the sjava code, we use Enum class named FindLineType, this line use REGEX to determinate
 which action this line related to. if it none is found, then it would throw an exception.
 
 For understanding if casting or declaration of a variable is valid or not, related to type issues,
@@ -154,12 +149,21 @@ which type accept the other, what are the types in sjava, and more.
 =    Answers to questions   =
 =============================
 
-
-add any modifier to the enum Type as we wish.
-add to the new modifier added the appropriate Pattern and a string of the new name type.
+Error Handing 6.1:
+Anytime an error or a syntax issue occur, it would throw an exception with an informative message of the
+problem. Every package has it own exceptions sub package, and in every one of them has a super class that all
+the other classes in the sub package are inherited from, so when attempting to catch an exception in the main
+package it would try to catch only the higher hierarchy of exception classes
 
 
 How would you modify your code to add new method types (e.g., float)?
+add any modifier to the enum class named Types, as we wish.
+add to the new modifier added the appropriate Pattern and a string of the new name type, and the appropriate
+logic needed.
+
+
+–which modifications/extensions you would have to make in your code
+ in order to support Different methods’ types (i.e int foo()):
 
 we would add a new modifier to enum Types,
 in the enum FindLineType we will add to the regex any one of the Type options.
@@ -169,7 +173,7 @@ and each time we hit a return statement (in ExecuteLine) we will add another ult
 checking that the the type being returned matches the signature return type.
 
 
-which modifications/extensions you would have to make in your code
+- which modifications/extensions you would have to make in your code
 in order to support classes?
 
 the way we check the program now is as we are checking one class only.
